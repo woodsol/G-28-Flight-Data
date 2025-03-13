@@ -1,5 +1,3 @@
-
-
 float xpos, ypos;
 
 float xspeed = 2.8;  // Speed of the shape
@@ -8,17 +6,25 @@ float yspeed = 2.2;  // Speed of the shape
 int xdirection = 1;  // Left or Right
 int ydirection = 1;  // Top to Bottom
 
+Data data;
+
 void setup()
 {
   size(200,200);
-background(0);
-frameRate(30);
+  background(0);
 
 
 
-xpos = width/2;
-ypos = height/4;
+  xpos = width/2;
+  ypos = height/4;
 
+  data = new Data();
+  ArrayList<Flight> flights = data.loadFlights(0, 4); // Load Flights 0-4
+  
+  for (int i = 0; i < flights.size(); i++) {
+    Flight flight = flights.get(i);
+    println("Flight from " + flight.ORIGIN_CITY_NAME + " to " + flight.DEST_CITY_NAME);
+  }
 }
 void draw()
 {
