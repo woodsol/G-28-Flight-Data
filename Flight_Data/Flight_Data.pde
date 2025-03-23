@@ -2,8 +2,6 @@
 int currentScreen = 0;
 final int MAP_SCREEN = 0;
 
-GraphBar bar_chart;
-
 // Database
 import de.bezier.data.sql.*;
 SQLite db;
@@ -51,21 +49,6 @@ void draw()
 
 // Handle user input
 void keyPressed() {
-    if (key == BACKSPACE) {
-        if (enteringStartDate && startDate.length() > 0) {
-            startDate = startDate.substring(0, startDate.length() - 1);
-        } else if (!enteringStartDate && endDate.length() > 0) {
-            endDate = endDate.substring(0, endDate.length() - 1);
-        }
-    } else if (key == ENTER || key == RETURN) {
-        // enteringStartDate = !enteringStartDate;
-    } else if (key >= '0' && key <= '9') {
-        if (enteringStartDate && startDate.length() < 8) {
-            startDate += key;
-        } else if (!enteringStartDate && endDate.length() < 8) {
-            endDate += key;
-        }
-    }
 }
 
 // Handle button click

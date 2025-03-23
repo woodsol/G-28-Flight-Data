@@ -2,7 +2,7 @@ class Data {
     String[] FlightsFile;
     Data(SQLite db) {
         
-        FlightsFile = loadStrings("./Flights1k.csv");
+        //FlightsFile = loadStrings("./Flights1k.csv");
     }
 
     public ArrayList<Flight> loadFlightsFromCSV(int range_start, int range_end) {
