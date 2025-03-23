@@ -1,6 +1,45 @@
 class Flight {
-    public String FL_DATE, MKT_CARRIER, MKT_CARRIER_FL_NUM, ORIGIN,ORIGIN_CITY_NAME,ORIGIN_STATE_ABR,ORIGIN_WAC,DEST,DEST_CITY_NAME,DEST_STATE_ABR,DEST_WAC,CRS_DEP_TIME,DEP_TIME,CRS_ARR_TIME,ARR_TIME,DISTANCE;
-    public boolean CANCELLED, DIVERTED;
+    // CRS means scheduled
+    public String FLDATE, MKTCARRIER, MKTCARRIERFLNUM, ORIGIN, ORIGINCITYNAME, ORIGINSTATEABR, ORIGINWAC, DEST, DESTCITYNAME, DESTSTATEABR, DESTWAC, CRSDEPTIME, DEPTIME, CRSARRTIME, ARRTIME;
+    public int CANCELLED, DIVERTED, DISTANCE; // 1 is true for cancelled and diverted
 
-    Flight() {}
+    Flight() {
+        // for searching
+        this.FLDATE = "FL_DATE";
+        this.ORIGINCITYNAME = "ORIGIN_CITY_NAME";
+        this.ORIGINSTATEABR = "ORIGIN_STATE_ABR";
+        this.DESTCITYNAME = "DEST_CITY_NAME";
+        this.DESTSTATEABR = "DEST_STATE_ABR";
+        this.CRSARRTIME = "CRS_ARR_TIME"; // Scheduled arrival time
+        this.CRSDEPTIME = "CRS_DEP_TIME"; // Scheduled departure time
+    }
+    
+    void flightDate(String value) {
+        value = value.concat(" 12:00:00 AM");
+        this.FLDATE = "\"" + value + "\"";
+    }
+    
+    void originStateAbr(String value) {
+      this.ORIGINSTATEABR = "\"" + value + "\"";
+    }
+    
+    void originCityName(String value) {
+      this.ORIGINSTATEABR = "\"" + value + "\"";
+    }
+    
+    void destinationStateAbr(String value) {
+      this.DESTSTATEABR = "\"" + value + "\"";
+    }
+    
+    void destinationCityName(String value) {
+      this.DESTCITYNAME = "\"" + value + "\"";
+    }
+    
+    void arrivalTime(String value) {
+      this.CRSARRTIME = "\"" + value + "\"";
+    }
+    
+    void departureTime(String value) {
+      this.CRSDEPTIME = "\"" + value + "\"";
+    }
 }
