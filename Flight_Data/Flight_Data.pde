@@ -1,6 +1,7 @@
 // Screen Logic
-int currentScreen = 0;
+int currentScreen = 2;
 final int MAP_SCREEN = 0;
+final int RESULTS_SCREEN = 2;
 
 // Database
 import de.bezier.data.sql.*;
@@ -11,7 +12,10 @@ MapScreen mapScreen;
 PVector pan = new PVector(50, 50); // Add panning and zoom
 float scale = 0.90;
 // int mouseHeldFrames = 0;
-PVector prevMousePos= new PVector(0,0);
+PVector prevMousePos = new PVector(0,0);
+
+// Results Screen
+ResultsScreen resultsScreen;
 
 Data data;
 
@@ -19,18 +23,22 @@ void setup() {
     size(1000, 600);
     textSize(16);
 
-    mapScreen = new MapScreen(createFont("Arial", 12));
     db = new SQLite( this, "flights.db" );
     data = new Data(db);
+    mapScreen = new MapScreen(createFont("Arial", 12));
+    resultsScreen = new ResultsScreen();
 
     Flight query = new Flight();
     query.originStateAbr("VA");
     query.destinationStateAbr("WA");
-    query.arrivalTime("800");
-
-    for (Flight f : data.search(query)) {
-        println(f.ORIGINSTATEABR + " to "+f.DESTSTATEABR);
-    }
+    
+    ArrayList<Flight> results = data.search(query);
+    println(results.size());
+    resultsScreen.loadResults(results);
+    //
+    // for (Flight f : data.search(query)) {
+    //     println(f.ORIGINSTATEABR + " to "+f.DESTSTATEABR);
+    // }
 }
 
 void draw()
@@ -40,6 +48,9 @@ void draw()
         scale(scale);
         translate(pan.x, pan.y);
         mapScreen.draw(scale, pan);
+        break;
+    case RESULTS_SCREEN:
+        resultsScreen.draw();
         break;
     default:
         print("Screen does not exist.");
@@ -71,7 +82,7 @@ void mouseDragged() {
     }
 }
 
-// Handle Scrolling
+// Handle Zooming
 void mouseWheel(MouseEvent event) {
     float e = event.getCount();
     scale += e * 0.01;
@@ -81,3 +92,11 @@ void mouseWheel(MouseEvent event) {
       scale = 4;
     }
 }
+
+void mouseReleased() {
+    if (currentScreen == RESULTS_SCREEN) {
+        resultsScreen.unlock();
+    }
+}
+
+// Christian Barton Randall 24/3/2025

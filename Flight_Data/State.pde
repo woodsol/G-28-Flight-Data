@@ -3,7 +3,7 @@ class State {
     String abbr;
     JSONArray coordinates;
     String geometryType;
-    color fillColor = color(36, 45, 60);
+    color fillColor = color(213, 197, 200);
     color highlightColor = color(255);
     color edgeColor = color(166, 176, 186);
     boolean mouseOver = false;
@@ -71,7 +71,7 @@ class State {
         endShape(CLOSE);
 
         // State Abbreviations
-        fill(highlightColor);
+        fill(0);
         textSize(12);
         textAlign(CENTER, CENTER);
         text(abbr, centre.x, centre.y);
@@ -99,3 +99,5 @@ class State {
         return inside;
     }
 }
+
+// Christian Barton Randall 24/3/2025
