@@ -1,0 +1,22 @@
+  class ResultsScreen {
+    ArrayList<Flight> results;
+    int scrollY;
+    int totalHeight;
+
+    ResultsScreen() {}
+
+    public void loadResults(ArrayList<Flight> results) {
+        this.results = results;
+    }
+
+    void drawScrollbar() {
+        ellipseMode(CORNER);
+        fill(140, 180, 255);
+        noStroke();
+        rect(width-10, 0, 10, height - 100);
+    }
+
+    public void draw() {
+        drawScrollbar();
+    }
+}

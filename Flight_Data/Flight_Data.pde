@@ -1,44 +1,102 @@
-float xpos, ypos;
+// Screen Logic
+int currentScreen = 2;
+final int MAP_SCREEN = 0;
+final int RESULTS_SCREEN = 2;
 
-float xspeed = 2.8;  // Speed of the shape
-float yspeed = 2.2;  // Speed of the shape
+// Database
+import de.bezier.data.sql.*;
+SQLite db;
 
-int xdirection = 1;  // Left or Right
-int ydirection = 1;  // Top to Bottom
+// Map Screen
+MapScreen mapScreen;
+PVector pan = new PVector(50, 50); // Add panning and zoom
+float scale = 0.90;
+// int mouseHeldFrames = 0;
+PVector prevMousePos = new PVector(0,0);
+
+// Results Screen
+ResultsScreen resultsScreen;
 
 Data data;
 
-void setup()
-{
-  size(200,200);
-  background(0);
+void setup() {
+    size(1000, 600);
+    textSize(16);
 
+    db = new SQLite( this, "flights.db" );
+    data = new Data(db);
+    mapScreen = new MapScreen(createFont("Arial", 12));
+    resultsScreen = new ResultsScreen();
 
-
-  xpos = width/2;
-  ypos = height/4;
-
-  data = new Data();
-  ArrayList<Flight> flights = data.loadFlights(0, 4); // Load Flights 0-4
-  
-  for (int i = 0; i < flights.size(); i++) {
-    Flight flight = flights.get(i);
-    println("Flight from " + flight.ORIGIN_CITY_NAME + " to " + flight.DEST_CITY_NAME);
-  }
+    Flight query = new Flight();
+    query.originStateAbr("VA");
+    query.destinationStateAbr("WA");
+    
+    ArrayList<Flight> results = data.search(query);
+    println(results.size());
+    resultsScreen.loadResults(results);
+    //
+    // for (Flight f : data.search(query)) {
+    //     println(f.ORIGINSTATEABR + " to "+f.DESTSTATEABR);
+    // }
 }
+
 void draw()
 {
-  background(0);
-  // Update the position of the shape
-  xpos = xpos + ( xspeed * xdirection );
-  ypos = ypos + ( yspeed * ydirection );
-
-  
-  square(20, ypos, 40);
-  noStroke(); fill(255, 0, 0);
-  square(xpos, 40, 40);
-  noStroke(); fill(250, 100, 0);
-  square(xpos, ypos, 40);
-  noStroke(); fill(25, 100, 200);
-
+  switch(currentScreen) {
+    case MAP_SCREEN:
+        scale(scale);
+        translate(pan.x, pan.y);
+        mapScreen.draw(scale, pan);
+        break;
+    case RESULTS_SCREEN:
+        resultsScreen.draw();
+        break;
+    default:
+        print("Screen does not exist.");
+        break;
+  }
 }
+
+// Handle user input
+void keyPressed() {
+}
+
+// Handle button click
+void mousePressed() {
+    if (currentScreen == MAP_SCREEN) {
+        prevMousePos.x = mouseX;
+        prevMousePos.y = mouseY;
+        for (State state : mapScreen.states) {
+            if (state.isMouseOver( scale, pan )) {
+                println(state.name + ", " + state.abbr);
+            }
+        }
+    }
+}
+
+void mouseDragged() {
+    if (currentScreen == MAP_SCREEN) {
+        pan.x += 0.01 * (mouseX - prevMousePos.x);
+        pan.y += 0.01 * (mouseY - prevMousePos.y);
+    }
+}
+
+// Handle Zooming
+void mouseWheel(MouseEvent event) {
+    float e = event.getCount();
+    scale += e * 0.01;
+    if (scale < 0.5) {
+      scale = 0.5;
+    } else if (scale > 4) {
+      scale = 4;
+    }
+}
+
+void mouseReleased() {
+    if (currentScreen == RESULTS_SCREEN) {
+        resultsScreen.unlock();
+    }
+}
+
+// Christian Barton Randall 24/3/2025
