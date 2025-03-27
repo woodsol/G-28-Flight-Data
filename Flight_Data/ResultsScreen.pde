@@ -61,10 +61,21 @@ class ResultsScreen {
             fill(42, 43, 46);
             stroke(2);
             rect(0, (index - scrollY / resultHeight) * resultHeight - scrollY % resultHeight, width - 10, resultHeight);
+
+            textFont(createFont("Arial", 12));
+            drawResult(index, (index - scrollY / resultHeight) * resultHeight - scrollY % resultHeight);
         }
         
         drawScrollbar();
         handleScrollLogic();
+    }
+
+    void drawResult(int index, int ypos) {
+        Flight result = results.get(index);
+        textAlign(LEFT, CENTER);
+        textSize(12);
+        fill(255);
+        text(result.MKTCARRIER + result.MKTCARRIERFLNUM, 20, ypos + resultHeight / 2);
     }
     
     public void unlock() {

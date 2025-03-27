@@ -1,6 +1,7 @@
 // Screen Logic
-int currentScreen = 2;
+int currentScreen = 0;
 final int MAP_SCREEN = 0;
+final int STATE_SCREEN = 1;
 final int RESULTS_SCREEN = 2;
 
 // Database
