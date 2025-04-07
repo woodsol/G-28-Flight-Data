@@ -1,0 +1,345 @@
+// Variables for date selectiondate
+
+class FlightDateSelectionUI {
+    int selectedYear = 2022;
+    int selectedMonth = 1;
+    int selectedDay = 1;
+
+
+    boolean yearDropdownOpen = false;
+    boolean monthDropdownOpen = false;
+    boolean dayDropdownOpen = false;
+
+    // Arrays for dropdown options
+    Integer[] years = new Integer[25];
+    String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    Integer[] days = new Integer[31];
+
+    // Scroll positions for dropdowns
+    int yearScroll = 0;
+    int monthScroll = 0;
+    int dayScroll = 0;
+    final int VISIBLE_ITEMS = 8; // Number of visible items in dropdowns
+    final int ITEM_HEIGHT = 50;  // Height of each dropdown item
+
+
+    boolean showFlightsPressed = false;
+    float pressTimer = 0;
+
+    FlightDateSelectionUI() {
+      for (int i = 0; i < years.length; i++) {
+        years[i] = 2000 + i;
+      }
+      
+      
+      for (int i = 0; i < days.length; i++) {
+        days[i] = i + 1;
+      }
+    }
+
+    void draw() {
+      background(255); 
+      
+      textAlign(CENTER, CENTER);
+      // Draw sun
+      fill(255, 255, 0);
+      noStroke();
+      ellipse(1000, 160, 120, 120);
+      
+      // Draw static clouds
+      fill(255, 240);
+      noStroke();
+      ellipse(200, 160, 120, 80);
+      ellipse(260, 140, 160, 100);
+      ellipse(320, 160, 120, 80);
+      ellipse(600, 300, 140, 90);
+      ellipse(680, 280, 180, 110);
+      ellipse(740, 300, 140, 90);
+      
+      ellipse(900, 200, 90, 55);
+      ellipse(950, 190, 110, 65);
+      
+      // Draw title
+      fill(255);
+      textSize(40);
+      text("Select Date and Flight Type", width / 2, 100);
+      
+      // dropdown menus
+      drawDropdown("Year: " + selectedYear, 150, 200, yearDropdownOpen, years, yearScroll);
+      drawDropdown("Month: " + months[selectedMonth-1], 450, 200, monthDropdownOpen, months, monthScroll);
+      drawDropdown("Day: " + selectedDay, 750, 200, dayDropdownOpen, days, dayScroll);
+
+      // show Flights button
+      drawButton("Show Flights", width/2, 400);
+      
+      
+      if (showFlightsPressed && pressTimer > 0) {
+        pressTimer -= 0.1;
+        if (pressTimer <= 0) showFlightsPressed = false;
+      }
+    }
+
+    // dropdown menu
+    void drawDropdown(String label, int x, int y, boolean isOpen, Object[] options, int scroll) {
+      boolean isHovered = mouseX / 0.8 >= x && mouseX / 0.8 <= x + 300 && mouseY / 0.8 >= y && mouseY / 0.8 <= y + 60;
+      float w = isHovered ? 320 : 300;
+      float h = isHovered ? 72 : 60;
+      float offsetX = isHovered ? -10 : 0;
+      float offsetY = isHovered ? -6 : 0;
+      
+      // Draw shadow
+      fill(0, 50);
+      rect(x + offsetX + 10, y + offsetY + 10, w, h);
+      
+      // Highlight on hover
+      if (isHovered) {
+        stroke(255);
+        strokeWeight(4);
+      } else {
+        noStroke();
+      }
+      
+      
+      fill(200);
+      rect(x + offsetX, y + offsetY, w, h);
+      
+      fill(0);
+      text(label, x + 150, y + 30);
+      
+      // Draw dropdown list if open
+      if (isOpen) {
+        fill(230);
+        int dropdownHeight = VISIBLE_ITEMS * ITEM_HEIGHT + 20;
+        rect(x, y + 60, 300, dropdownHeight);
+        
+        fill(0);
+        textSize(32);
+        int start = max(0, min(scroll, options.length - VISIBLE_ITEMS));
+        int end = min(start + VISIBLE_ITEMS, options.length);
+        
+        for (int i = start; i < end; i++) {
+          text(options[i].toString(), x + 150, y + 100 + (i - start) * ITEM_HEIGHT);
+        }
+        
+        
+        if (options.length > VISIBLE_ITEMS) {
+          fill(150);
+          triangle(x + 260, y + 70, x + 280, y + 70, x + 270, y + 60);
+          triangle(x + 260, y + 60 + dropdownHeight - 10, 
+                   x + 280, y + 60 + dropdownHeight - 10, 
+                   x + 270, y + 60 + dropdownHeight);
+        }
+        
+        textSize(40);
+      }
+      
+      noStroke();
+    }
+
+
+    void drawToggle(String label, int x, int y, boolean active) {
+      boolean isHovered = mouseX > x && mouseX < x + 240 && mouseY > y && mouseY < y + 60;
+      float w = active ? 260 : 240;
+      float h = active ? 72 : 60;
+      float offsetX = active ? -10 : 0;
+      float offsetY = active ? -6 : 0;
+      
+      if (isHovered) {
+        w = 280;
+        h = 84;
+        offsetX = -20;
+        offsetY = -12;
+        stroke(255);
+        strokeWeight(4);
+      } else if (active) {
+        stroke(255);
+        strokeWeight(2);
+      } else {
+        noStroke();
+      }
+      
+      // Draw shadow
+      fill(0, 50);
+      rect(x + offsetX + 10, y + offsetY + 10, w, h);
+      
+      // Green for active, red for inactive
+      fill(active ? color(0, 200, 0) : color(200, 0, 0));
+      rect(x + offsetX, y + offsetY, w, h);
+      
+      fill(255);
+      text(label, x + 120, y + 30);
+      
+      noStroke();
+    }
+
+    // Draw Show Flights button
+    void drawButton(String label, int x, int y) {
+      boolean isHovered = mouseX > x && mouseX < x + 300 && mouseY > y && mouseY < y + 100;
+      float w = isHovered ? 320 : 300;
+      float h = isHovered ? 120 : 100;
+      float offsetX = isHovered ? -10 : 0;
+      float offsetY = isHovered ? -10 : 0;
+      
+      if (isHovered) {
+        stroke(255);
+        strokeWeight(4);
+      } else {
+        noStroke();
+      }
+      
+      // Draw shadow
+      fill(0, 50);
+      rect(x + offsetX + 10, y + offsetY + 10, w, h);
+      
+      // Flash blue when pressed
+      if (showFlightsPressed && pressTimer > 0) {
+        fill(0, 0, 200);
+      } else {
+        fill(0, 0, 139);
+      }
+      rect(x + offsetX, y + offsetY, w, h);
+      
+      fill(255);
+      text(label, x + 150, y + 50);
+      
+      noStroke();
+    }
+
+    // Calculate valid days in a month
+    int daysInMonth(int month, int year) {
+      if (month == 4 || month == 6 || month == 9 || month == 11) return 30;
+      if (month == 2) return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0) ? 29 : 28;
+      return 31;
+    }
+
+
+    String handleMousePress(int mouseX, int mouseY) {
+      boolean clickedOnDropdown = false;
+      
+      // Year dropdown
+      if (mouseX > 150 && mouseX < 450) {
+          if (mouseY > 200 && mouseY < 260) {
+              yearDropdownOpen = !yearDropdownOpen;
+              monthDropdownOpen = false;
+              dayDropdownOpen = false;
+              clickedOnDropdown = true;
+          } 
+          else if (yearDropdownOpen) {
+              if (years.length > VISIBLE_ITEMS) {
+                  if (mouseX > 260 && mouseX < 280) {
+                      if (mouseY > 260 && mouseY < 290) {
+                          yearScroll = max(0, yearScroll - 1);
+                          clickedOnDropdown = true;
+                      } 
+                      else if (mouseY > 260 + VISIBLE_ITEMS*ITEM_HEIGHT - 30 && mouseY < 260 + VISIBLE_ITEMS*ITEM_HEIGHT) {
+                          yearScroll = min(years.length - VISIBLE_ITEMS, yearScroll + 1);
+                          clickedOnDropdown = true;
+                      }
+                  }
+              }
+              if (mouseY > 260 && mouseY < 260 + VISIBLE_ITEMS*ITEM_HEIGHT) {
+                  int selectedIndex = yearScroll + (mouseY - 260) / ITEM_HEIGHT;
+                  if (selectedIndex >= 0 && selectedIndex < years.length) {
+                      selectedYear = years[selectedIndex];
+                      yearDropdownOpen = false;
+                      int maxDays = daysInMonth(selectedMonth, selectedYear);
+                      if (selectedDay > maxDays) selectedDay = maxDays;
+                  }
+                  clickedOnDropdown = true;
+              }
+          }
+      }
+      
+      // Month dropdown
+      if (mouseX > 500 && mouseX < 800) {
+        if (mouseY > 200 && mouseY < 260) {
+          monthDropdownOpen = !monthDropdownOpen;
+          yearDropdownOpen = false;
+          dayDropdownOpen = false;
+          clickedOnDropdown = true;
+        } 
+        else if (monthDropdownOpen && mouseY > 260 && mouseY < 260 + VISIBLE_ITEMS * ITEM_HEIGHT) {
+          int selectedIndex = monthScroll + (mouseY - 260) / ITEM_HEIGHT;
+          if (selectedIndex >= 0 && selectedIndex < months.length) {
+            selectedMonth = selectedIndex + 1;
+            monthDropdownOpen = false;
+            int maxDays = daysInMonth(selectedMonth, selectedYear);
+            if (selectedDay > maxDays) selectedDay = maxDays;
+          }
+          clickedOnDropdown = true;
+        }
+        else if (monthDropdownOpen && months.length > VISIBLE_ITEMS) {
+          if (mouseX > 660 && mouseX < 680 && mouseY > 260 && mouseY < 290) {
+            monthScroll = max(0, monthScroll - 1);
+            clickedOnDropdown = true;
+          } 
+          else if (mouseX > 660 && mouseX < 680 && mouseY > 260 + VISIBLE_ITEMS * ITEM_HEIGHT - 30 && mouseY < 260 + VISIBLE_ITEMS * ITEM_HEIGHT) {
+            monthScroll = min(months.length - VISIBLE_ITEMS, monthScroll + 1);
+            clickedOnDropdown = true;
+          }
+        }
+      }
+      
+      // Day dropdown
+      if (mouseX > 700 && mouseX < 1000) {
+        if (mouseY > 200 && mouseY < 260) {
+          dayDropdownOpen = !dayDropdownOpen;
+          yearDropdownOpen = false;
+          monthDropdownOpen = false;
+          clickedOnDropdown = true;
+        } 
+        else if (dayDropdownOpen && mouseY > 260 && mouseY < 260 + VISIBLE_ITEMS * ITEM_HEIGHT) {
+          int selectedIndex = dayScroll + (mouseY - 260) / ITEM_HEIGHT;
+          int maxDays = daysInMonth(selectedMonth, selectedYear);
+          if (selectedIndex >= 0 && selectedIndex < min(days.length, maxDays)) {
+            selectedDay = days[selectedIndex];
+            dayDropdownOpen = false;
+          }
+          clickedOnDropdown = true;
+        }
+        else if (dayDropdownOpen && days.length > VISIBLE_ITEMS) {
+          if (mouseX > 860 && mouseX < 880 && mouseY > 260 && mouseY < 290) {
+            dayScroll = max(0, dayScroll - 1);
+            clickedOnDropdown = true;
+          } 
+          else if (mouseX > 860 && mouseX < 880 && mouseY > 260 + VISIBLE_ITEMS * ITEM_HEIGHT - 30 && mouseY < 260 + VISIBLE_ITEMS * ITEM_HEIGHT) {
+            dayScroll = min(days.length - VISIBLE_ITEMS, dayScroll + 1);
+            clickedOnDropdown = true;
+          }
+        }
+      }
+      
+      // Close dropdowns if clicked outside
+      if (!clickedOnDropdown) {
+        yearDropdownOpen = false;
+        monthDropdownOpen = false;
+        dayDropdownOpen = false;
+      }
+      
+      // Flights button action
+      if (mouseX > 0 && mouseX < width + 100 && mouseY > 300 && mouseY < 600) {
+        showFlightsPressed = true;
+        pressTimer = 1.0;
+        return selectedMonth + "/" + selectedDay + "/" + selectedYear;
+      }
+
+      return "NULL";
+    }
+
+    // mouse wheel scrolling
+    void mouseWheel(MouseEvent event) {
+      float scrollAmount = event.getCount();
+      
+      if (yearDropdownOpen) {
+        yearScroll = constrain(yearScroll + (int)scrollAmount, 0, max(0, years.length - VISIBLE_ITEMS));
+      } 
+      else if (monthDropdownOpen) {
+        monthScroll = constrain(monthScroll + (int)scrollAmount, 0, max(0, months.length - VISIBLE_ITEMS));
+      } 
+      else if (dayDropdownOpen) {
+        dayScroll = constrain(dayScroll + (int)scrollAmount, 0, max(0, days.length - VISIBLE_ITEMS));
+      }
+    }
+}
+
+// all code written and collaborated on by Joseph Hegarty and Daniel Doolan written at 10am 27/03/2025

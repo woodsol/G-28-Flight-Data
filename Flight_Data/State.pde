@@ -3,8 +3,8 @@ class State {
     String abbr;
     JSONArray coordinates;
     String geometryType;
-    color fillColor = color(213, 197, 200);
-    color highlightColor = color(255);
+    color fillColor = color(135, 206, 235); // Sky Blue
+    color highlightColor = color(50);
     color edgeColor = color(166, 176, 186);
     boolean mouseOver = false;
     ArrayList<PVector> points = new ArrayList<PVector>();
