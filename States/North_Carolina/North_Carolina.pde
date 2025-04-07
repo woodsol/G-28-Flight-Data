@@ -24,7 +24,7 @@ void draw() {
   textSize(20);
   textAlign(CENTER, CENTER);
   fill(0);
-  text("Airport", dotX, dotY + dotSize + 20);
+  text("Raleigh", dotX, dotY + dotSize + 20);
 }
 
 void mousePressed() {
