@@ -1,41 +1,57 @@
 // Screen Logic
 int currentScreen = 0;
-final int MAP_SCREEN = 0;
-final int STATE_SCREEN = 1;
-final int RESULTS_SCREEN = 2;
+final int HOME_SCREEN = 0;
+final int MAP_SCREEN = 1;
+final int STATE_SCREEN = 2;
+final int RESULTS_SCREEN = 3;
+final int GRAPHS_SCREEN = 4;
+final int DATE_SCREEN = 5;
 
 // Database
 import de.bezier.data.sql.*;
 SQLite db;
 
+// Home Screen
+HomeScreen homeScreen;
+
 // Map Screen
 MapScreen mapScreen;
 PVector pan = new PVector(50, 50); // Add panning and zoom
-float scale = 0.90;
+float scale = 0.9;
 // int mouseHeldFrames = 0;
 PVector prevMousePos = new PVector(0,0);
+PImage planeCursor;
+boolean departureSelected = false;
+String departureState = "";
+String arrivalState = "";
+String flightDate = "";
+
+// Date Selector screen
+FlightDateSelectionUI dateScreen;
 
 // Results Screen
 ResultsScreen resultsScreen;
 
 Data data;
 
+PFont Montserrat;
+PFont MontserratBold;
+
 void setup() {
     size(1000, 600);
     textSize(16);
+    
+    Montserrat = createFont("Montserrat-Medium.ttf", 64);
+    MontserratBold = createFont("Montserrat-Bold.ttf", 64);
+
+    planeCursor = loadImage("planeCursor.png"); // Custom cursor image
 
     db = new SQLite( this, "flights.db" );
     data = new Data(db);
-    mapScreen = new MapScreen(createFont("Arial", 12));
+    homeScreen = new HomeScreen(Montserrat);
+    mapScreen = new MapScreen(Montserrat);
+    dateScreen = new FlightDateSelectionUI();
     resultsScreen = new ResultsScreen();
-
-    Flight query = new Flight();
-    query.originStateAbr("VA");
-    query.destinationStateAbr("WA");
-    
-    ArrayList<Flight> results = data.search(query);
-    println(results.size());
-    resultsScreen.loadResults(results);
     //
     // for (Flight f : data.search(query)) {
     //     println(f.ORIGINSTATEABR + " to "+f.DESTSTATEABR);
@@ -45,18 +61,41 @@ void setup() {
 void draw()
 {
   switch(currentScreen) {
+    case HOME_SCREEN:
+        homeScreen.draw();
+        break;
     case MAP_SCREEN:
         scale(scale);
         translate(pan.x, pan.y);
         mapScreen.draw(scale, pan);
+        
+        textAlign(CENTER, CENTER);
+        textSize(16 / scale);
+        fill(0);
+        if (departureSelected) {
+            text("Select Arrival", width/2, 10);
+        } else {
+            text("Select Departure", width/2, 10);
+        }
         break;
     case RESULTS_SCREEN:
         resultsScreen.draw();
+        break;
+    case GRAPHS_SCREEN:
+        homeScreen.drawGraphsScreen();
+        break;
+    case DATE_SCREEN:
+        scale(0.8);
+        dateScreen.draw();
         break;
     default:
         print("Screen does not exist.");
         break;
   }
+
+  // Draws custom plane cursor instead of the default cursor
+  //image(planeCursor, mouseX - 16, mouseY - 16, 32, 32);
+  //noCursor(); // Hides the system cursor
 }
 
 // Handle user input
@@ -65,14 +104,40 @@ void keyPressed() {
 
 // Handle button click
 void mousePressed() {
-    if (currentScreen == MAP_SCREEN) {
-        prevMousePos.x = mouseX;
-        prevMousePos.y = mouseY;
-        for (State state : mapScreen.states) {
-            if (state.isMouseOver( scale, pan )) {
-                println(state.name + ", " + state.abbr);
+    switch (currentScreen) {
+        case HOME_SCREEN:
+            int screen_change = homeScreen.handleMousePress();
+            if (screen_change != -1) {
+                currentScreen = screen_change;
             }
-        }
+            break;
+        case MAP_SCREEN:
+            prevMousePos.x = mouseX;
+            prevMousePos.y = mouseY;
+            for (State state : mapScreen.states) {
+                if (state.isMouseOver( scale, pan )) {
+                    if (departureSelected) {
+                        arrivalState = state.abbr;
+                        currentScreen = DATE_SCREEN;
+                    } else {
+                        departureState = state.abbr;
+                        departureSelected = true;
+                    }
+                }
+            }
+            break;
+        case DATE_SCREEN:
+            int mX = (int) Math.round(mouseX / 0.8);
+            int mY = (int) Math.round(mouseY / 0.8);
+            String date = dateScreen.handleMousePress(mX, mY);
+            if (!date.equals("NULL")) {
+                flightDate = date;
+                thread("search");
+                currentScreen = RESULTS_SCREEN;
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -85,12 +150,19 @@ void mouseDragged() {
 
 // Handle Zooming
 void mouseWheel(MouseEvent event) {
-    float e = event.getCount();
-    scale += e * 0.01;
-    if (scale < 0.5) {
-      scale = 0.5;
-    } else if (scale > 4) {
-      scale = 4;
+    switch (currentScreen) {
+        case MAP_SCREEN:
+            float e = event.getCount();
+            scale += e * 0.01;
+            if (scale < 0.5) {
+              scale = 0.5;
+            } else if (scale > 4) {
+              scale = 4;
+            }
+            break;
+        case DATE_SCREEN:
+            dateScreen.mouseWheel(event);
+            break;
     }
 }
 
@@ -100,4 +172,22 @@ void mouseReleased() {
     }
 }
 
-// Christian Barton Randall 24/3/2025
+void search() {
+    Flight query = new Flight();
+    query.originStateAbr(departureState);
+    query.destinationStateAbr(arrivalState);
+    query.flightDate(flightDate);
+    
+    ArrayList<Flight> results = data.search(query);
+    println(results.size());
+    resultsScreen.loadResults(results);
+    currentScreen = RESULTS_SCREEN;              
+}
+
+void mouseMoved() {
+    if (currentScreen == HOME_SCREEN) {
+        homeScreen.mouseMoved();
+    }
+}
+
+// Code by Christian Barton Randall
