@@ -1,14 +1,19 @@
 
 // GraphLine class for line graph
 class GraphLine {
-  int[] data;
+  float[] data;
+  String[] labels;
+  int xLength, yLength;
   float animationProgress; // goes from 0 to 1
   int lastAnimatedPoint; 
   int animationSpeed;
   
-  GraphLine(int[] data)
+  GraphLine(float[] data, String labels[], int xLength, int yLength)
   {
     this.data = data;
+    this.labels = labels;
+    this.xLength = xLength;
+    this.yLength = yLength;
     this.animationProgress = 0;
     this.lastAnimatedPoint = 0;
     this.animationSpeed = 1; 
@@ -33,29 +38,36 @@ class GraphLine {
   {
     if (data.length == 0) return;
     
-    int minVal = min(data);
-    int maxVal = max(data);
+    float minVal = 4000;
+    float maxVal = 5300;
     
-    stroke(150);
-    line(xOffset, yOffset + 200, xOffset + 300, yOffset + 200); 
-    line(xOffset, yOffset, xOffset, yOffset + 200);
+    stroke(50);
+    line(xOffset, yOffset + 250, xOffset + 400, yOffset + 250); 
+    line(xOffset, yOffset, xOffset, yOffset + 250);
     
     stroke(0);
     noFill();
-    beginShape();
-    for (int i = 0; i <= lastAnimatedPoint; i++) {
-      float x = map(i, 0, data.length - 1, xOffset, xOffset + 300);
-      float y = map(data[i], minVal, maxVal, yOffset + 200, yOffset);
-      vertex(x, y);
-      
-      if (i == lastAnimatedPoint || i % 5 == 0) 
-      { 
-        fill(255, 0, 0);
-        ellipse(x, y, 5, 5);
-        noFill();
-      }
+    
+    for (int i = 0; i < lastAnimatedPoint; i++) {
+    float x1 = map(i, 0, data.length - 1, xOffset, xOffset + 300);
+    float y1 = map(data[i], minVal, maxVal, yOffset + 200, yOffset);
+    float x2 = map(i + 1, 0, data.length - 1, xOffset, xOffset + 300);
+    float y2 = map(data[i + 1], minVal, maxVal, yOffset + 200, yOffset);
+    
+    // Draw line segment between two points
+    line(x1, y1, x2, y2);
+    
+    // Draw data points as red ellipses
+    fill(255, 0, 0);
+    ellipse(x1, y1, 5, 5);
+    noFill();
+    
+    // Use the drawLabel method for label drawing
+        if (labels != null && labels.length > i) 
+        {
+            drawLabel(x1, y1, labels[i], data[i]);
+        }
     }
-    endShape();
     
     if (lastAnimatedPoint > 0 && animationProgress < 1.0) {
       float headX = map(lastAnimatedPoint, 0, data.length - 1, xOffset, xOffset + 300);
@@ -69,6 +81,19 @@ class GraphLine {
   {
     return animationProgress >= 1.0;
   }
+  
+  void drawLabel(float x, float y, String label, float distance) {
+    // Check if the mouse is hovering over the point
+    if (dist(mouseX, mouseY, x, y) < 5) {
+        textAlign(CENTER);
+        fill(0);
+        text(label + ", Distance: " + distance + "km", x, y - 15); 
+    } else {
+        noFill();
+        stroke(150);
+        ellipse(x, y, 10, 10); 
+    }
+}
 }
 
 

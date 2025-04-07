@@ -1,34 +1,90 @@
 GraphLine graphLine;
-int[]distanceArray;
 boolean animationRunning = false;
+float[] distanceArray;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 // Database
-import de.bezier.data.sql.*;
-SQLite db;
+Table table;
+ArrayList<Float> flightDistances = new ArrayList<Float>();
+ArrayList<String> flightLabels = new ArrayList<>();
+
+PImage planebackground, planeCursor;
 
 void setup()
 {
-  size(600, 600);
+  size(1000, 600);
   smooth();
   
-  db = new SQLite( this, "flights.db" );
-  Data data = new Data(db);
-  ArrayList<Flight> flights = data.loadFlightsFromCSV(0, 1000); 
+  table = loadTable("flights2k(1).csv", "csv");
   
-  ArrayList<Flight> topTenFlights = getTopTenFlights(flights);
-  ArrayList<Integer> distances = getDistances(topTenFlights); 
+  planebackground = loadImage("planebackground.jpg");
+  planebackground.resize(width, height);
+    
+  planeCursor = loadImage("plane_cursor (1).png"); 
+  planeCursor.resize(50, 50); 
   
-  distanceArray = new int[distances.size()];
-  for (int i = 0; i < distances.size(); i++) 
+  HashSet<String> uniqueFlights = new HashSet<>();
+  
+  for (int i = 1; i < table.getRowCount(); i++) 
   {
-    distanceArray[i] = distances.get(i);
+    TableRow row = table.getRow(i);
+    float distance = row.getFloat(17); // Distance
+    String destination = row.getString(4); 
+    String arrival = row.getString(8); 
+    
+    // Create a unique key for each flight as "Destination → Arrival"
+    String flightKey = destination + " → " + arrival;
+    
+    if (!uniqueFlights.contains(flightKey)) 
+    {
+      uniqueFlights.add(flightKey);
+      flightDistances.add(distance);
+      flightLabels.add(flightKey); 
+    }
   }
   
-  graphLine = new GraphLine(distanceArray);
+  ArrayList<FlightData> flightDataList = new ArrayList<>();
+  for (int i = 0; i < flightDistances.size(); i++) 
+  {
+    flightDataList.add(new FlightData(flightDistances.get(i), flightLabels.get(i)));
+  }
+  
+  Collections.sort(flightDataList, (a, b) -> Float.compare(b.distance, a.distance));
+  
+  // Get the top 10 distances and labels
+  int topCount = min(10, flightDataList.size());
+  distanceArray = new float[topCount];
+  String[] labelsArray = new String[topCount];
+  for (int i = 0; i < topCount; i++) 
+  {
+    distanceArray[i] = flightDataList.get(i).distance;
+    labelsArray[i] = flightDataList.get(i).label;
+  }
+  
+  graphLine = new GraphLine(distanceArray, labelsArray, 500, 1000);
 }
 
 void draw()
 {
+  background(planebackground); 
+  
+  noCursor();
+  image(planeCursor, mouseX - planeCursor.width / 2, mouseY - planeCursor.height / 2);
+
+    fill(0);
+    textAlign(LEFT, CENTER);
+    textSize(24);
+    text("Click to animate the top 10 flight distances", 300, 150);
+    textSize(12);
+    
+  graphLine.drawAnimated(350, 200);
+  
   if (mousePressed && !animationRunning) 
   {
     graphLine.startAnimation();
@@ -38,45 +94,24 @@ void draw()
   if (animationRunning) 
   {
     graphLine.updateAnimation();
-    graphLine.drawAnimated(100, 100);
     
-    if (graphLine.isAnimationComplete()) {
+    if (graphLine.isAnimationComplete()) 
+    {
       animationRunning = false;
     }
+  } 
+  else 
+  {
+   
   }
 }
 
-public ArrayList<Flight> getTopTenFlights(ArrayList<Flight> flights) 
-{
-  ArrayList<Flight> sortedFlights = new ArrayList<Flight>(flights);
-  
-  sortedFlights.sort((f1, f2) -> f2.DISTANCE - f1.DISTANCE);
-  
-  return new ArrayList<Flight>(sortedFlights.subList(0, min(10, sortedFlights.size())));
+class FlightData {
+  float distance;
+  String label;
+
+  FlightData(float distance, String label) {
+    this.distance = distance;
+    this.label = label;
+  }
 }
-
-public ArrayList<Integer> getDistances(ArrayList<Flight> flights) 
-{
-    ArrayList<Integer> distances = new ArrayList<Integer>();
-    for (Flight flight : flights) 
-    {
-        distances.add(flight.DISTANCE);
-    }
-    return distances;
-}
-
-public ArrayList<Flight> searchTopNByDistance(int topN) 
-{
-        ArrayList<Flight> results = new ArrayList<Flight>();
-        if ( db.connect() ) {
-            db.query("SELECT TOP " + topN + "  * FROM flights ORDER BY flight.DISTANCE DESC");
-
-            while (db.next()) {
-                Flight f = new Flight();
-                db.setFromRow( f );
-                results.add(f);
-            }
-        }
-        
-        return results;
-    }
