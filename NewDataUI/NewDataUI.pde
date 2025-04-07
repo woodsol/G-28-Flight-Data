@@ -7,7 +7,7 @@ PImage planeCursor;
 String currentScreen = "HOME"; // Tracks which screen the user is currently on
 
 void setup() {
-  size(800, 600);
+  size(1000, 600);
   font = createFont("Arial", 16, true);
   textFont(font);
 
