@@ -25,7 +25,7 @@ class MapScreen {
     }
 
     void draw(float scale, PVector pan) {
-        background(42, 43, 46);
+        background(255);
 
         ArrayList<State> delayedRendering = new ArrayList<State>();
 
