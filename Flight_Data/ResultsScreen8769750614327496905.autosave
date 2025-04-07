@@ -1,0 +1,114 @@
+class ResultsScreen {
+    ArrayList<Flight> results;
+    int scrollY = 0;
+    int totalHeight;
+    float ratio;
+    float scrollbarWidth = 10;
+    boolean locked;
+    int prevMy;
+    int resultHeight = 100;
+    color bg_color = color(255);
+    color scrollbarColor = color(135, 206, 235);
+    PImage delta = loadImage("airlines/Delta.png");
+    PImage united = loadImage("airlines/United.png");
+
+    ResultsScreen() {
+        totalHeight = height;
+        ratio = ((float) height) / ((float) totalHeight);
+    }
+
+    public void loadResults(ArrayList<Flight> results) {
+        this.results = results;
+        totalHeight = this.results.size() * resultHeight;
+        ratio = ((float) height) / ((float) totalHeight);
+    }
+
+    void drawScrollbar() {
+        ellipseMode(CORNER);
+        noStroke();
+        fill(224);
+        rect(width-((int) scrollbarWidth), 0, scrollbarWidth, height);
+        fill(scrollbarColor);
+        rect(width-((int) scrollbarWidth), scrollY, scrollbarWidth, height * ratio);
+    }
+    
+    void handleScrollLogic() {
+        if (mouseX > width - scrollbarWidth) {
+            if (scrollbarWidth < 15) {
+                scrollbarWidth += 0.3;
+            }
+        } else if (scrollbarWidth > 10) {;
+            scrollbarWidth -= 0.3;
+        }
+        
+        if (mousePressed) {
+            if (locked) {
+                scrollY += mouseY - prevMy;
+                prevMy = mouseY;
+                
+                if (scrollY + ((int) height * ratio) > height) {
+                    scrollY = height - ((int) (height * ratio));
+                }
+                if (scrollY < 0) {
+                    scrollY = 0;
+                }
+            } else if (mouseX > width - scrollbarWidth) {
+                prevMy = mouseY;
+                locked = true;
+            }
+        }   
+    }
+
+    public void draw() {
+        background(bg_color);
+        
+        for (int index = scrollY / resultHeight; index < results.size(); index++) {
+            fill(120);
+            stroke(1);
+            strokeWeight(1);
+            int line_y = (index - scrollY / resultHeight) * resultHeight - scrollY % resultHeight + resultHeight;
+            line(10, line_y, width - 10 - scrollbarWidth, line_y);
+            strokeWeight(4);
+
+            textFont(createFont("Arial", 12));
+            drawResult(index, (index - scrollY / resultHeight) * resultHeight - scrollY % resultHeight);
+        }
+        
+        drawScrollbar();
+        handleScrollLogic();
+    }
+
+    void drawResult(int index, int ypos) {
+        Flight result = results.get(index);
+        textAlign(LEFT, CENTER);
+        fill(80);
+        if (result.CANCELLED == 1 || result.DIVERTED == 1) { fill(255, 0, 0); }
+        textFont(MontserratBold);
+        textSize(16);
+        switch(result.MKTCARRIER) {
+            case "DL":
+                image(delta, 20, ypos + resultHeight / 2 - 40, 80, 80);
+                break;
+            case "UA":
+                image(united, 20, ypos + resultHeight / 2 - 40, 80, 80);
+                break;
+            default:
+                break;
+        }
+        text(result.MKTCARRIER + result.MKTCARRIERFLNUM, 80, ypos + resultHeight / 2);
+        textFont(Montserrat);
+        textSize(16);
+        text(result.ORIGINCITYNAME + " -> " + result.DESTCITYNAME, 160, ypos + resultHeight / 2);
+        text(processTime(result.DEPTIME) + " -> " + processTime(result.ARRTIME), 700, ypos + resultHeight / 2);
+    }
+
+    String processTime(String t) {
+        
+    }
+    
+    public void unlock() {
+        locked = false;
+    }
+}
+
+// Christian Barton Randall 24/3/2025

@@ -21,18 +21,15 @@ class ResultsScreen {
 
   public void loadResults(ArrayList<Flight> results) {
     this.results = results;
-    ArrayList<Flight> cancelled = new ArrayList<Flight>();
-
-    for (int i = 0; i < this.results.size(); i++) {
-        Flight result = this.results.get(i);
-        if (result.CANCELLED == 1 || result.DIVERTED == 1) {
-            cancelled.add(result);
-            results.remove(i--);
-        }
-    }
-    results.addAll(cancelled);
     totalHeight = this.results.size() * resultHeight;
     ratio = ((float) height) / ((float) totalHeight);
+
+    results.sort((s1, s2) -> {
+            if (result.CANCELLED == 1 || result.DIVERTED == 1) {
+                return 1;
+            }
+            return -1;
+    });
   }
 
   void drawScrollbar() {
@@ -131,12 +128,12 @@ class ResultsScreen {
     textSize(16);
     fill(80);
     if (cancelled_or_diverted) {
-        if (result.DIVERTED == 1) {
-            fill(160, 160, 30);
-            text("DIVERTED", 700, ypos + resultHeight / 2);
-        } else {
+        if (result.CANCELLED == 1) {
             fill(255, 30, 30);
             text("CANCELLED", 700, ypos + resultHeight / 2);
+        } else {
+            fill(160, 160, 30);
+            text("DIVERTED", 700, ypos + resultHeight / 2);
         }
     } else {
         text(result.ORIGINCITYNAME + " -> " + result.DESTCITYNAME, 280, ypos + resultHeight / 2);
