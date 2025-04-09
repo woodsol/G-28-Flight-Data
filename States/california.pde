@@ -7,6 +7,9 @@ int dotSize2 = 20; // Size of the second dot
 int dotX3 = 320;
 int dotY3 = 510;
 int dotSize3 = 20;
+int dotX4 = 290;
+int dotY4 = 230;
+int dotSize4 = 20;
 PImage california; // Declare an image object for the background
 
 void setup() {
@@ -53,6 +56,18 @@ void draw() {
   textSize(20);
   textAlign(CENTER, CENTER);
   text("San Diego", dotX3, dotY3 + dotSize3 / 2 + 20);
+  
+  if (dist(mouseX, mouseY, dotX4, dotY4) < dotSize4 / 2) {
+    fill(255, 0, 0); // Change color to red if hovered
+  } else {
+    fill(0); // Change color to black if not hovered
+  }
+  ellipse(dotX4, dotY4, dotSize4, dotSize4); // Draw the first dot
+  
+  fill(0);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+  text("Oaklands", dotX4, dotY4 + dotSize4 / 2 + 20);
 }
 
 
@@ -73,6 +88,12 @@ void mousePressed() {
   if (dist(mouseX, mouseY, dotX3, dotY3) < dotSize3 / 2) {
     fill(0, 0, 255); // Change color to blue
     ellipse(dotX3, dotY3, dotSize3, dotSize3);
+    noLoop(); // Stop the animation (to keep the color change permanent)
+  }
+  
+  if (dist(mouseX, mouseY, dotX4, dotY4) < dotSize4 / 2) {
+    fill(0, 0, 255); // Change color to blue
+    ellipse(dotX4, dotY4, dotSize4, dotSize4);
     noLoop(); // Stop the animation (to keep the color change permanent)
   }
 }

@@ -24,6 +24,16 @@ class MapScreen {
         }
     }
 
+    String getAbbreviation(String stateName) {
+        for (State state : states) {
+            if (stateName.equals(state.name)) {
+                return state.abbr;
+            }
+        }
+        
+        return "";
+    }
+
     void draw(float scale, PVector pan) {
         background(255);
 

@@ -4,9 +4,6 @@ int dotSize1 = 20; // Size of the first dot
 int dotX2 = 340; // X-coordinate for the second dot (Memphis)
 int dotY2 = 410; // Y-coordinate for the second dot (Memphis)
 int dotSize2 = 20; // Size of the second dot
-int dotX3 = 320;
-int dotY3 = 200;
-int dotSize3 = 20;
 PImage alabama; // Declare an image object for the background
 
 void setup() {
@@ -41,18 +38,6 @@ void draw() {
   textSize(20);
   textAlign(CENTER, CENTER);
   text("Tucson International", dotX2, dotY2 + dotSize2 / 2 + 20);
-  
-  if (dist(mouseX, mouseY, dotX3, dotY3) < dotSize3 / 2) {
-    fill(255, 0, 0); // Change color to red if hovered
-  } else {
-    fill(0); // Change color to black if not hovered
-  }
-  ellipse(dotX3, dotY3, dotSize3, dotSize3); // Draw the first dot
-  
-  fill(0);
-  textSize(20);
-  textAlign(CENTER, CENTER);
-  text("Grand Canyon National Park", dotX3, dotY3 + dotSize3 / 2 + 20);
 }
 
 
@@ -67,12 +52,6 @@ void mousePressed() {
   if (dist(mouseX, mouseY, dotX2, dotY2) < dotSize2 / 2) {
     fill(0, 0, 255); // Change color to blue
     ellipse(dotX2, dotY2, dotSize2, dotSize2);
-    noLoop(); // Stop the animation (to keep the color change permanent)
-  }
-  
-  if (dist(mouseX, mouseY, dotX3, dotY3) < dotSize3 / 2) {
-    fill(0, 0, 255); // Change color to blue
-    ellipse(dotX3, dotY3, dotSize3, dotSize3);
     noLoop(); // Stop the animation (to keep the color change permanent)
   }
 }
