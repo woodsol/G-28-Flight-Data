@@ -16,11 +16,6 @@ class HomeScreen {
       planebackground = loadImage("planebackground.jpg");
       planebackground.resize(width, height);
 
-      barChartImage = loadImage("barChartImage2.png");
-      pieChartImage = loadImage("pieChartImage2.png");
-      lineChartImage = loadImage("lineChartImage2.png");
-      trajectoryImage = loadImage("flightTrajectoryImage2.png");
-      heatMapImage = loadImage("heatMapImage2.png");
 
       // Create main menu buttons
       float buttonWidth = 240 * 1.5;
@@ -64,22 +59,6 @@ class HomeScreen {
       textSize(24);
       textAlign(LEFT);
       text("Search Flights", 100, 100);
-      backButton.display();
-    }
-
-    // Graph selection screen
-    void drawGraphsScreen() {
-      background(planebackground);
-      fill(0);
-      textSize(32);
-      textAlign(CENTER);
-      text("Data Type Selection", width / 2, 80);
-
-      barChartButton.display();
-      pieChartButton.display();
-      lineChartButton.display();
-      trajectoryButton.display();
-      heatMapButton.display();
       backButton.display();
     }
 

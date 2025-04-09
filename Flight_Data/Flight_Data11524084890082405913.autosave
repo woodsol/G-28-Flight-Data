@@ -17,9 +17,6 @@ SQLite db;
 // Home Screen
 HomeScreen homeScreen;
 
-// Graph Screen
-GraphScreen graphScreen;
-
 // Map Screen
 MapScreen mapScreen;
 PVector pan = new PVector(50, 50); // Add panning and zoom
@@ -59,7 +56,6 @@ void setup() {
   db = new SQLite( this, "flights.db" );
   data = new Data(db);
   homeScreen = new HomeScreen(Montserrat);
-  graphScreen = new GraphScreen();
   mapScreen = new MapScreen(Montserrat);
   searchBar = new SearchBar();
   dateScreen = new FlightDateSelectionUI();
@@ -114,7 +110,7 @@ void draw()
     resultsScreen.draw(data.dataReturned);
     break;
   case GRAPHS_SCREEN:
-    graphScreen.draw();
+    homeScreen.drawGraphsScreen();
     break;
   case DATE_SCREEN:
     scale(0.8);
@@ -149,9 +145,6 @@ void mousePressed() {
     if (screen_change != -1) {
       currentScreen = screen_change;
     }
-    break;
-  case GRAPHS_SCREEN:
-    graphScreen.mousePressed();
     break;
   case MAP_SCREEN:
     float mousX = mouseX / scale - pan.x;
@@ -243,15 +236,15 @@ void search() {
 }
 
 String endingOf(String month) {
-    switch (month.charAt(month.length() - 1)) {
-        case '1':
-            return "st";
-        case '2':
-            return "nd";
-        case '3':
-            return "rd";
-    }
-    return "th";
+  switch (month.charAt(month.length() - 1)) {
+  case '1':
+    return "st";
+  case '2':
+    return "nd";
+  case '3':
+    return "rd";
+  }
+  return "th";
 }
 
 void mouseMoved() {
