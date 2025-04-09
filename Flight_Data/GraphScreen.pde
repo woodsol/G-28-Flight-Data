@@ -4,9 +4,13 @@ final int LINE_CHART = 2;
 final int TRAJECTORY = 3;
 final int HEAT_MAP = 4;
 
+FlightTrajectoryMap flightTrajectory;
+
 class GraphScreen {
     int subScreen = 0;
     GraphScreen() {
+      flightTrajectory = new FlightTrajectoryMap();
+
       barChartImage = loadImage("barChartImage2.png");
       pieChartImage = loadImage("pieChartImage2.png");
       lineChartImage = loadImage("lineChartImage2.png");
@@ -30,33 +34,63 @@ class GraphScreen {
 
     // Graph selection screen
     void draw() {
-      background(planebackground);
-      fill(0);
-      textSize(32);
-      textAlign(CENTER);
-      text("Data Type Selection", width / 2, 80);
+        switch (subScreen) {
+            case MAIN:
+                background(planebackground);
+                fill(0);
+                textSize(32);
+                  textAlign(CENTER);
+                text("Data Type Selection", width / 2, 80);
 
-      barChartButton.display();
-      pieChartButton.display();
-      lineChartButton.display();
-      trajectoryButton.display();
-      heatMapButton.display();
-      backButton.display();
+                barChartButton.display();
+                pieChartButton.display();
+                lineChartButton.display();
+                trajectoryButton.display();
+                heatMapButton.display();
+                backButton.display();
+                break;
+            case TRAJECTORY:
+                flightTrajectory.draw();
+                break;
+        }
     }
     
     void mousePressed() {
-        if (barChartButton.isClicked(mouseX, mouseY)) {
-          println("Bar Chart Screen");
-        } else if (pieChartButton.isClicked(mouseX, mouseY)) {
-          println("Pie Chart Screen");
-        } else if (lineChartButton.isClicked(mouseX, mouseY)) {
-          println("Line Chart Screen");
-        } else if (trajectoryButton.isClicked(mouseX, mouseY)) {
-          println("Flight Trajectory Screen");
-        } else if (heatMapButton.isClicked(mouseX, mouseY)) {
-          println("Heat Map Screen");
-        } else if (backButton.isClicked(mouseX, mouseY)) {
-          currentScreen = HOME_SCREEN; // Returns to home screen
+        switch (subScreen) {
+            case MAIN:
+                if (barChartButton.isClicked(mouseX, mouseY)) {
+                  subScreen = BAR_CHART;
+                } else if (pieChartButton.isClicked(mouseX, mouseY)) {
+                  subScreen = PIE_CHART;
+                } else if (lineChartButton.isClicked(mouseX, mouseY)) {
+                  subScreen = LINE_CHART;
+                } else if (trajectoryButton.isClicked(mouseX, mouseY)) {
+                  subScreen = TRAJECTORY;
+                } else if (heatMapButton.isClicked(mouseX, mouseY)) {
+                  subScreen = HEAT_MAP;
+                } else if (backButton.isClicked(mouseX, mouseY)) {
+                  currentScreen = HOME_SCREEN; // Returns to home screen
+                }
+                break;
+            case TRAJECTORY:
+                flightTrajectory.mousePressed();
+                break;
+        }
+    }
+
+    void keyPressed() {
+        switch (subScreen) {
+            case TRAJECTORY:
+                flightTrajectory.keyPressed();
+                break;
+        }
+    }
+
+    void mouseWheel(MouseEvent event) {
+        switch (subScreen) {
+            case TRAJECTORY:
+                flightTrajectory.mouseWheel(event);
+                break;
         }
     }
 }

@@ -1,14 +1,13 @@
 PImage usaMap;
 Table table;
-ArrayList<Flight> flights = new ArrayList<Flight>();
-Dropdown dropdown;
+ArrayList<FlightPath> flights = new ArrayList<FlightPath>();
+TrajectoryDropdown dropdown;
 HashMap<String, float[]> coords = new HashMap<String, float[]>();
 
 class FlightTrajectoryMap {
     FlightTrajectoryMap() {
-      size(1000, 600);
       usaMap = loadImage("map_of_america.png");
-      table = loadTable("flights2k(1).csv", "header");
+      table = loadTable("flights1k.csv", "header");
       defineCoords();
 
       for (TableRow row : table.rows()) {
@@ -32,17 +31,17 @@ class FlightTrajectoryMap {
 
         float[] o = coords.get(origin);
         float[] d = coords.get(dest);
-        flights.add(new Flight(id, o[0], o[1], d[0], d[1]));
+        flights.add(new FlightPath(id, o[0], o[1], d[0], d[1]));
       }
 
-      dropdown = new Dropdown(flights);
+      dropdown = new TrajectoryDropdown(flights);
     }
 
     void draw() {
       background(255);
       image(usaMap, 0, 0, width, height);
       dropdown.display();
-      Flight selected = dropdown.getSelectedFlight();
+      FlightPath selected = dropdown.getSelectedFlight();
       if (selected != null) {
         selected.drawPath();
       }
@@ -58,135 +57,6 @@ class FlightTrajectoryMap {
 
     void keyPressed() {
       dropdown.keyPressed(key);
-    }
-
-    class Flight {
-      String id;
-      float lat1, lon1, lat2, lon2;
-
-      Flight(String id, float lat1, float lon1, float lat2, float lon2) {
-        this.id = id;
-        this.lat1 = lat1;
-        this.lon1 = lon1;
-        this.lat2 = lat2;
-        this.lon2 = lon2;
-      }
-
-      void drawPath() {
-        stroke(0, 0, 255);
-        strokeWeight(2);
-        noFill();
-
-        float x1 = map(lon1, -125, -65, 0, width);
-        float y1 = map(lat1, 50, 20, 0, height);
-        float x2 = map(lon2, -125, -65, 0, width);
-        float y2 = map(lat2, 50, 20, 0, height);
-
-        float cx = (x1 + x2) / 2;
-        float cy = (y1 + y2) / 2 - 50;
-
-        beginShape();
-        vertex(x1, y1);
-        quadraticVertex(cx, cy, x2, y2);
-        endShape();
-
-        fill(255, 0, 0); ellipse(x1, y1, 8, 8);
-        fill(0, 255, 0); ellipse(x2, y2, 8, 8);
-      }
-
-      String getID() {
-        return id;
-      }
-    }
-
-    class Dropdown {
-      String[] allLabels;
-      String[] visibleLabels;
-      int selectedIndex = 0;
-      String filter = "";
-      float x, y, w = 200, h = 25;
-      int scrollOffset = 0;
-      int maxVisible = 3;
-
-      Dropdown(ArrayList<Flight> flights) {
-        allLabels = new String[flights.size()];
-        for (int i = 0; i < flights.size(); i++) {
-          allLabels[i] = flights.get(i).getID();
-        }
-        updateVisible();
-
-        // Bottom-right positioning with margin
-        x = width - w - 30;
-        y = height - (h * (maxVisible + 1)) - 30;
-      }
-
-      void updateVisible() {
-        ArrayList<String> filtered = new ArrayList<String>();
-        for (String label : allLabels) {
-          if (label.toLowerCase().contains(filter.toLowerCase())) {
-            filtered.add(label);
-          }
-        }
-        visibleLabels = filtered.toArray(new String[0]);
-        selectedIndex = constrain(selectedIndex, 0, visibleLabels.length - 1);
-        scrollOffset = 0;
-      }
-
-      void display() {
-        fill(240);
-        stroke(0);
-        rect(x, y, w, h);
-        fill(0);
-        textAlign(LEFT, CENTER);
-        if (visibleLabels.length > 0) {
-          text(visibleLabels[selectedIndex], x + 5, y + h / 2);
-        } else {
-          text("No match", x + 5, y + h / 2);
-        }
-
-        for (int i = 0; i < min(maxVisible, visibleLabels.length); i++) {
-          int listIndex = scrollOffset + i;
-          if (listIndex >= visibleLabels.length) break;
-          fill(i == selectedIndex - scrollOffset ? 200 : 255);
-          rect(x, y + h * (i + 1), w, h);
-          fill(0);
-          text(visibleLabels[listIndex], x + 5, y + h * (i + 1) + h / 2);
-        }
-      }
-
-      void mousePressed() {
-        if (mouseX > x && mouseX < x + w && mouseY > y && mouseY < y + h * (maxVisible + 1)) {
-          int clicked = int((mouseY - y) / h);
-          if (clicked > 0 && scrollOffset + clicked - 1 < visibleLabels.length) {
-            selectedIndex = scrollOffset + clicked - 1;
-          } else {
-            selectedIndex = (selectedIndex + 1) % visibleLabels.length;
-          }
-        }
-      }
-
-      void scroll(int amount) {
-        scrollOffset += amount;
-        scrollOffset = constrain(scrollOffset, 0, max(0, visibleLabels.length - maxVisible));
-      }
-
-      void keyPressed(char key) {
-        if (key == BACKSPACE && filter.length() > 0) {
-          filter = filter.substring(0, filter.length() - 1);
-        } else if (key != ENTER && key != RETURN) {
-          filter += key;
-        }
-        updateVisible();
-      }
-
-      Flight getSelectedFlight() {
-        if (visibleLabels.length == 0) return null;
-        String selectedID = visibleLabels[selectedIndex];
-        for (Flight f : flights) {
-          if (f.getID().equals(selectedID)) return f;
-        }
-        return null;
-      }
     }
 
     void defineCoords() {

@@ -133,11 +133,13 @@ void draw()
 // Handle user input
 void keyPressed() {
   switch(currentScreen) {
-  case MAP_SCREEN:
-    searchBar.keyPressed();
-    break;
-  default:
-    break;
+      case MAP_SCREEN:
+        searchBar.keyPressed();
+        break;
+      case GRAPHS_SCREEN:
+        graphScreen.keyPressed();
+      default:
+        break;
   }
 }
 
@@ -211,6 +213,9 @@ void mouseWheel(MouseEvent event) {
     break;
   case DATE_SCREEN:
     dateScreen.mouseWheel(event);
+    break;
+  case GRAPHS_SCREEN:
+    graphScreen.mouseWheel(event);
     break;
   case RESULTS_SCREEN:
     break;
