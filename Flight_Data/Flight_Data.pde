@@ -1,6 +1,9 @@
+import controlP5.*;
+
 import java.util.*;
 import java.util.stream.*;
-
+ControlP5 cp5;
+import controlP5.*;
 // Screen Logic
 int currentScreen = 0;
 final int HOME_SCREEN = 0;
@@ -55,6 +58,8 @@ void setup() {
   MontserratBold = createFont("Montserrat-Bold.ttf", 64);
 
   planeCursor = loadImage("planeCursor.png"); // Custom cursor image
+  
+  cp5 = new ControlP5(this);
 
   db = new SQLite( this, "flights.db" );
   data = new Data(db);
@@ -263,6 +268,10 @@ void mouseMoved() {
   if (currentScreen == HOME_SCREEN) {
     homeScreen.mouseMoved();
   }
+}
+
+void numItems(int val) {
+    graphScreen.numItems(val);
 }
 
 // Code by Christian Barton Randall

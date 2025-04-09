@@ -3,13 +3,20 @@ final int BAR_CHART = 1;
 final int LINE_CHART = 2;
 final int TRAJECTORY = 3;
 final int HEAT_MAP = 4;
+final int PIE_CHART = 5;
 
 FlightTrajectoryMap flightTrajectory;
+FlightBarChart barChart;
+FlightHeatMap heatMap;
+FlightPieChart pieChart;
 
 class GraphScreen {
     int subScreen = 0;
     GraphScreen() {
       flightTrajectory = new FlightTrajectoryMap();
+      barChart = new FlightBarChart();
+      heatMap = new FlightHeatMap();
+      pieChart = new FlightPieChart();
 
       barChartImage = loadImage("barChartImage2.png");
       pieChartImage = loadImage("pieChartImage2.png");
@@ -52,6 +59,15 @@ class GraphScreen {
             case TRAJECTORY:
                 flightTrajectory.draw();
                 break;
+            case HEAT_MAP:
+                heatMap.draw();
+                break;
+            case PIE_CHART:
+                pieChart.draw();
+                break;
+            case BAR_CHART:
+                barChart.draw();
+                break;
         }
     }
     
@@ -92,5 +108,9 @@ class GraphScreen {
                 flightTrajectory.mouseWheel(event);
                 break;
         }
+    }
+
+    void numItems(int val) {
+        pieChart.setNumItems(val);
     }
 }
