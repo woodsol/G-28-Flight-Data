@@ -51,7 +51,7 @@ class HomeScreen {
       fill(0);
       textSize(32);
       textAlign(CENTER);
-      text("Flight UI Dashboard", width / 2, 100);
+      text("Flight Dashboard", width / 2, 100);
       
       searchFlightsButton.display();
       graphsButton.display();

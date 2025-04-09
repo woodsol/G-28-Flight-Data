@@ -1,5 +1,6 @@
 class Data {
     String[] FlightsFile;
+    public boolean dataReturned = false;
     Data(SQLite db) {
         
         //FlightsFile = loadStrings("./Flights1k.csv");
@@ -50,6 +51,7 @@ class Data {
                 results.add(f);
             }
         }
+        dataReturned = true;
         
         return results;
     }

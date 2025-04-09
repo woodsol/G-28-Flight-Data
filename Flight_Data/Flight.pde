@@ -15,31 +15,38 @@ class Flight {
     }
     
     void flightDate(String value) {
-        value = value.concat(" 12:00:00 AM");
-        this.FLDATE = "\"" + value + "\"";
+      if (value.equals("")) { return; }
+      value = value.concat(" 12:00:00 AM");
+      this.FLDATE = "\"" + value + "\"";
     }
     
     void originStateAbr(String value) {
+      if (value.equals("")) { return; }
       this.ORIGINSTATEABR = "\"" + value + "\"";
     }
     
     void originCityName(String value) {
+      if (value.equals("")) { return; }
       this.ORIGINSTATEABR = "\"" + value + "\"";
     }
     
     void destinationStateAbr(String value) {
+      if (value.equals("")) { return; }
       this.DESTSTATEABR = "\"" + value + "\"";
     }
     
     void destinationCityName(String value) {
+      if (value.equals("")) { return; }
       this.DESTCITYNAME = "\"" + value + "\"";
     }
     
     void arrivalTime(String value) {
+      if (value.equals("")) { return; }
       this.CRSARRTIME = "\"" + value + "\"";
     }
     
     void departureTime(String value) {
+      if (value.equals("")) { return; }
       this.CRSDEPTIME = "\"" + value + "\"";
     }
 }

@@ -1,0 +1,269 @@
+Alabama
+Alaska
+Arizona
+Arkansas
+California
+Colorado
+Connecticut
+Delaware
+Florida
+Georgia
+Hawaii
+Idaho
+Illinois
+Indiana
+Iowa
+Kansas
+Kentucky
+Louisiana
+Maine
+Maryland
+Massachusetts
+Michigan
+Minnesota
+Mississippi
+Missouri
+Montana
+Nebraska
+Nevada
+New Hampshire
+New Jersey
+New Mexico
+New York
+North Carolina
+North Dakota
+Ohio
+Oklahoma
+Oregon
+Pennsylvania
+Rhode Island
+South Carolina
+South Dakota
+Tennessee
+Texas
+Utah
+Vermont
+Virginia
+Washington
+West Virginia
+Wisconsin
+Wyoming
+Abilene, TX
+Akron, OH
+Albany, NY
+Albuquerque, NM
+Alexandria, LA
+Allentown, PA
+Amarillo, TX
+Anchorage, AK
+Appleton, WI
+Asheville, NC
+Aspen, CO
+Atlanta, GA
+Atlantic City, NJ
+Augusta, GA
+Austin, TX
+Bakersfield, CA
+Baltimore, MD
+Bangor, ME
+Baton Rouge, LA
+Beaumont, TX
+Bellingham, WA
+Bentonville, AR
+Billings, MT
+Birmingham, AL
+Bismarck, ND
+Boise, ID
+Boston, MA
+Bozeman, MT
+Bristol, TN
+Brownsville, TX
+Buffalo, NY
+Burlington, VT
+Butte, MT
+Cedar Rapids, IA
+Champaign, IL
+Charleston, SC
+Charleston, WV
+Charlotte, NC
+Charlottesville, VA
+Chattanooga, TN
+Chicago, IL
+Chico, CA
+Cincinnati, OH
+Clearwater, FL
+Cleveland, OH
+Cody, WY
+College Station, TX
+Colorado Springs, CO
+Columbia, MO
+Columbia, SC
+Columbus, GA
+Columbus, OH
+Corpus Christi, TX
+Dallas, TX
+Dayton, OH
+Daytona Beach, FL
+Denver, CO
+Des Moines, IA
+Detroit, MI
+Duluth, MN
+Durango, CO
+Eagle, CO
+El Paso, TX
+Elko, NV
+Erie, PA
+Eugene, OR
+Evansville, IN
+Fargo, ND
+Fayetteville, AR
+Fayetteville, NC
+Flint, MI
+Fort Lauderdale, FL
+Fort Myers, FL
+Fort Smith, AR
+Fort Wayne, IN
+Fresno, CA
+Gainesville, FL
+Grand Forks, ND
+Grand Junction, CO
+Grand Rapids, MI
+Great Falls, MT
+Green Bay, WI
+Greensboro, NC
+Greenville, MS
+Greenville, NC
+Greenville, SC
+Gulfport, MS
+Gunnison, CO
+Harrisburg, PA
+Hartford, CT
+Hayden, CO
+Hilo, HI
+Hilton Head, SC
+Honolulu, HI
+Houston, TX
+Huntsville, AL
+Idaho Falls, ID
+Indianapolis, IN
+Jackson, MS
+Jackson, WY
+Jacksonville, FL
+Jacksonville, NC
+Jamestown, NY
+Kahului, HI
+Kalamazoo, MI
+Kansas City, MO
+Key West, FL
+Killeen, TX
+Knoxville, TN
+Lafayette, LA
+Lansing, MI
+Laredo, TX
+Las Vegas, NV
+Lawton, OK
+Lexington, KY
+Lincoln, NE
+Little Rock, AR
+Long Beach, CA
+Los Angeles, CA
+Louisville, KY
+Lubbock, TX
+Lynchburg, VA
+Madison, WI
+Manchester, NH
+Marquette, MI
+Martha's Vineyard, MA
+Melbourne, FL
+Memphis, TN
+Miami, FL
+Midland, TX
+Milwaukee, WI
+Minneapolis, MN
+Missoula, MT
+Mobile, AL
+Modesto, CA
+Montgomery, AL
+Montrose, CO
+Myrtle Beach, SC
+Nantucket, MA
+Nashville, TN
+New Haven, CT
+New Orleans, LA
+New York, NY
+Newark, NJ
+Newburgh, NY
+Norfolk, VA
+Oakland, CA
+Oklahoma City, OK
+Omaha, NE
+Ontario, CA
+Orange County, CA
+Orlando, FL
+Palm Springs, CA
+Panama City, FL
+Pasco, WA
+Pensacola, FL
+Peoria, IL
+Philadelphia, PA
+Phoenix, AZ
+Pittsburgh, PA
+Portland, ME
+Portland, OR
+Providence, RI
+Pueblo, CO
+Raleigh, NC
+Rapid City, SD
+Redmond, OR
+Reno, NV
+Richmond, VA
+Roanoke, VA
+Rochester, MN
+Rochester, NY
+Rockford, IL
+Sacramento, CA
+Salt Lake City, UT
+San Angelo, TX
+San Antonio, TX
+San Diego, CA
+San Francisco, CA
+San Jose, CA
+San Luis Obispo, CA
+Santa Barbara, CA
+Santa Fe, NM
+Sarasota, FL
+Savannah, GA
+Seattle, WA
+Shreveport, LA
+Sioux Falls, SD
+South Bend, IN
+Spokane, WA
+Springfield, IL
+Springfield, MO
+St. Louis, MO
+St. Petersburg, FL
+State College, PA
+Steamboat Springs, CO
+Syracuse, NY
+Tallahassee, FL
+Tampa, FL
+Telluride, CO
+Toledo, OH
+Traverse City, MI
+Tucson, AZ
+Tulsa, OK
+Tupelo, MS
+Tuscaloosa, AL
+Twin Falls, ID
+Vail, CO
+Valdez, AK
+Valdosta, GA
+Waco, TX
+Washington, DC
+West Palm Beach, FL
+White Plains, NY
+Wichita, KS
+Wichita Falls, TX
+Wilkes-Barre, PA
+Wilmington, NC
+Worcester, MA

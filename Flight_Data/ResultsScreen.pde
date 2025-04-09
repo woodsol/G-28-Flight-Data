@@ -12,6 +12,11 @@ class ResultsScreen {
   color scrollbarColor = color(135, 206, 235);
   PImage delta = loadImage("airlines/Delta.png");
   PImage united = loadImage("airlines/United.png");
+  PImage southwest = loadImage("airlines/Southwest.png");
+  PImage americanairlines = loadImage("airlines/American.png");
+  PImage spirit = loadImage("airlines/Spirit.png");
+  PImage alaska = loadImage("airlines/Alaska.png");
+  PImage frontier = loadImage("airlines/Frontier.png");
   int frame_count = 0;
 
   ResultsScreen() {
@@ -71,16 +76,22 @@ class ResultsScreen {
     }
   }
 
-  public void draw() {
+  public void draw(boolean dataReturned) {
     background(bg_color);
 
     if (results.size() == 0) {
-        if (frame_count < 1000) {
+        if (frame_count < 1000 && !dataReturned) {
             textFont(MontserratBold);
             textSize(16);
             fill(80);
             textAlign(CENTER, CENTER);
             text("Loading" + new String(new char[(frame_count / 10) % 3]).replace("\0", "."), width / 2, height / 2);
+        } else {
+            textFont(MontserratBold);
+            textSize(16);
+            fill(80);
+            textAlign(CENTER, CENTER);
+            text("No Results Found", width / 2, height / 2);
         }
 
         frame_count += 1;
@@ -114,9 +125,29 @@ class ResultsScreen {
     textSize(14);
     float r = 1;
     switch(result.MKTCARRIER) {
+      case "AA":
+        r = (float) americanairlines.height / (float) americanairlines.width;
+        image(americanairlines, 45, ypos + resultHeight / 2 - 60, 120 * r, 120);
+        break;
+      case "AS":
+        r = (float) alaska.height / (float) alaska.width;
+        image(alaska, 45, ypos + resultHeight / 2 - 50, 100 * r, 100);
+        break;
+      case "F9":
+        r = (float) frontier.height / (float) frontier.width;
+        image(frontier, 45, ypos + resultHeight / 2 - 50, 100 * r, 100);
+        break;
+      case "WN":
+        r = (float) southwest.height / (float) southwest.width;
+        image(southwest, 45, ypos + resultHeight / 2 - 50, 100 * r, 100);
+        break;
       case "DL":
         r = (float) delta.height / (float) delta.width;
         image(delta, 45, ypos + resultHeight / 2 - 50, 100 * r, 100);
+        break;
+      case "NK":
+        r = (float) spirit.height / (float) spirit.width;
+        image(spirit, 45, ypos + resultHeight / 2 - 50, 100 * r, 100);
         break;
       case "UA":
         r = (float) united.height / (float) united.width;
