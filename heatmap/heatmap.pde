@@ -22,14 +22,12 @@ color[] heatColors = {
 
 class FlightHeatMap {
     FlightHeatMap() {
-      background(0);
-      
       // Initialize heatmap grid
       heatmapGrid = new int[gridWidth * gridHeight];
       
       // Load world map background (optional)
-      // worldMap = loadImage("world_map.jpg");
-      // worldMap.resize(width, height);
+      worldMap = loadImage("map_of_america.png");
+      worldMap.resize(width, height);
       
       // Load and process flight data
       loadFlightData("heatmap.csv");
@@ -129,6 +127,7 @@ class FlightHeatMap {
       // }
       
       // Draw heatmap with logarithmic scaling for better visualization
+      background(worldMap);
       colorMode(HSB, 255);
       loadPixels();
       for (int y = 0; y < height; y++) {

@@ -29,8 +29,8 @@ class FlightHeatMap {
       heatmapGrid = new int[gridWidth * gridHeight];
       
       // Load world map background (optional)
-      worldMap = loadImage("map_of_america.png");
-      worldMap.resize(width/4, height/4);
+      worldMap = loadImage("map_of_america.jpg");
+      worldMap.resize(width, height);
       
       // Load and process flight data
       loadFlightData("heatmap.csv");
@@ -127,11 +127,11 @@ class FlightHeatMap {
 
     void draw() {
       // Draw background map if available
-      background(0);
-      if (worldMap != null) {
-        image(worldMap, 100, 100);
-      }
+      // if (worldMap != null) {
+      //   image(worldMap, 0, 0);
+      // }
       
+      background(0);
       
       // Draw heatmap with logarithmic scaling for better visualization
       loadPixels();
