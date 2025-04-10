@@ -41,6 +41,7 @@ PImage massachusetts;
 PImage new_hampshire;
 PImage nebraska;
 PImage nevada;
+PImage new_jersey;
 
 class StatesScreen {
     HashMap<String, stateData> statesList;
@@ -52,6 +53,7 @@ class StatesScreen {
         statesList = new HashMap<String, stateData>();
 
         newyork = loadImage("new_york.jpeg");
+        new_jersey = loadImage("new_jersey.jpg");
         massachusetts = loadImage("massachusetts.jpg");
         alaska = loadImage("alaska.jpg");
         southcarolina = loadImage("south_carolina.jpeg");
@@ -123,8 +125,8 @@ class StatesScreen {
         temp.put("Burlington", new PVector(300, 280.0));
         statesList.put("Vermont", new stateData(vermont, temp));
         temp = new HashMap<String, PVector>();
-        temp.put("Rapid City", new PVector(150, 380.0));
-        statesList.put("South Dakota", new stateData(southdakota, temp));
+        temp.put("Newark", new PVector(300, 190.0));
+        statesList.put("New_Jersey", new stateData(new_jersey, temp));
         temp = new HashMap<String, PVector>();
         temp.put("Airport", new PVector(300, 290));
         statesList.put("Oklahoma", new stateData(oklahoma, temp));
