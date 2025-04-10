@@ -60,42 +60,49 @@ class GraphScreen {
                 break;
             case TRAJECTORY:
                 flightTrajectory.draw();
+                backButton.display();
                 break;
             case HEAT_MAP:
                 heatMap.draw();
+                backButton.display();
                 break;
             case PIE_CHART:
                 pieChart.draw();
+                backButton.display();
                 break;
             case BAR_CHART:
                 barChart.draw();
+                backButton.display();
                 break;
             case LINE_CHART:
                 lineChart.draw();
+                backButton.display();
                 break;
         }
     }
     
     void mousePressed() {
-        switch (subScreen) {
-            case MAIN:
-                if (barChartButton.isClicked(mouseX, mouseY)) {
-                  subScreen = BAR_CHART;
-                } else if (pieChartButton.isClicked(mouseX, mouseY)) {
-                  subScreen = PIE_CHART;
-                } else if (lineChartButton.isClicked(mouseX, mouseY)) {
-                  subScreen = LINE_CHART;
-                } else if (trajectoryButton.isClicked(mouseX, mouseY)) {
-                  subScreen = TRAJECTORY;
-                } else if (heatMapButton.isClicked(mouseX, mouseY)) {
-                  subScreen = HEAT_MAP;
-                } else if (backButton.isClicked(mouseX, mouseY)) {
-                  currentScreen = HOME_SCREEN; // Returns to home screen
-                }
-                break;
-            case TRAJECTORY:
+        if (subScreen == MAIN) {
+            if (barChartButton.isClicked(mouseX, mouseY)) {
+              subScreen = BAR_CHART;
+            } else if (pieChartButton.isClicked(mouseX, mouseY)) {
+              subScreen = PIE_CHART;
+            } else if (lineChartButton.isClicked(mouseX, mouseY)) {
+              subScreen = LINE_CHART;
+            } else if (trajectoryButton.isClicked(mouseX, mouseY)) {
+              subScreen = TRAJECTORY;
+            } else if (heatMapButton.isClicked(mouseX, mouseY)) {
+              subScreen = HEAT_MAP;
+            } else if (backButton.isClicked(mouseX, mouseY)) {
+              currentScreen = HOME_SCREEN; // Returns to home screen
+            }
+        } else {
+            if (subScreen == TRAJECTORY) {
                 flightTrajectory.mousePressed();
-                break;
+            }
+            if (backButton.isClicked(mouseX, mouseY)) {
+                subScreen = MAIN;
+            }
         }
     }
 

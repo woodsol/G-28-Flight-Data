@@ -35,6 +35,7 @@ class FlightPieChart {
     }
     background(planebackground);
     drawPieChart();
+    cp5.draw();
   }
 
   void drawPieChart() {

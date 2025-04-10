@@ -60,6 +60,7 @@ void setup() {
   MontserratBold = createFont("Montserrat-Bold.ttf", 64);
   
   cp5 = new ControlP5(this);
+  cp5.setAutoDraw(false);
 
   db = new SQLite( this, "flights.db" );
   data = new Data(db);
