@@ -181,14 +181,14 @@ void mousePressed() {
     for (State state : mapScreen.states) {
       if (state.isMouseOver( scale, pan )) {
         if (departureSelected) {
-          arrivalState = state.abbr;
+          // arrivalState = state.abbr;
           statesScreen.loadState(state.name, state.abbr);
           statesScreen.originMode = false;
           currentScreen = STATE_SCREEN;
           // arrivalState = state.abbr;
           // currentScreen = DATE_SCREEN;
         } else {
-          departureState = state.abbr;
+          // departureState = state.abbr;
           statesScreen.loadState(state.name, state.abbr);
           currentScreen = STATE_SCREEN;
           departureSelected = true;

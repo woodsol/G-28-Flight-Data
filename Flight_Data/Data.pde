@@ -45,6 +45,7 @@ class Data {
         ArrayList<Flight> results = new ArrayList<Flight>();
         if ( db.connect() ) {
             db.query("SELECT * FROM flights WHERE FL_DATE="+search_query.FLDATE+" AND ORIGIN_CITY_NAME LIKE "+search_query.ORIGINCITYNAME+" AND ORIGIN_STATE_ABR="+search_query.ORIGINSTATEABR+" AND DEST_CITY_NAME LIKE "+search_query.DESTCITYNAME+" AND DEST_STATE_ABR="+search_query.DESTSTATEABR+" AND CRS_ARR_TIME="+search_query.CRSARRTIME+" AND CRS_DEP_TIME="+search_query.CRSDEPTIME);
+            println("SELECT * FROM flights WHERE FL_DATE="+search_query.FLDATE+" AND ORIGIN_CITY_NAME LIKE "+search_query.ORIGINCITYNAME+" AND ORIGIN_STATE_ABR="+search_query.ORIGINSTATEABR+" AND DEST_CITY_NAME LIKE "+search_query.DESTCITYNAME+" AND DEST_STATE_ABR="+search_query.DESTSTATEABR+" AND CRS_ARR_TIME="+search_query.CRSARRTIME+" AND CRS_DEP_TIME="+search_query.CRSDEPTIME);
 
             while (db.next()) {
                 Flight f = new Flight();

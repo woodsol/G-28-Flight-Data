@@ -11,13 +11,27 @@ def analyse(fn):
     cities = {}
     variables = {}
     drawLabelFunctions = False
+    size = [1000, 600]
     with open(fn) as f:
         for i in f.readlines():
             i = i.strip();
+            if i.startswith("size("):
+                t = i.split("(")[-1].split(")")[0].split(",")
+                size[0] = int(t[0])
+                size[1] = int(t[1])
+            if i.startswith("image("):
+                t = i.split("(")[-1].split(")")[0].split(",")
+                print(t)
+                size[0] = eval(t[3].replace("width", str(size[0])))
+                size[1] = eval(t[4].replace("height", str(size[1])))
             if i.startswith("int "):
                 var = i.split("int ")[-1].split(";")[0].split("=")
                 name = var[0].strip()
                 variables[name] = var[1].strip()
+                if "x" in name.lower():
+                    variables[name] = str(float(variables[name]) / (1000 / size[0]))
+                if "y" in name.lower():
+                    variables[name] = str(float(variables[name]) / (6010000 / size[0]))
 
             if "drawLabel(" in i:
                 drawLabelFunctions = True
@@ -65,7 +79,7 @@ for state in glob("States/*"):
 
     for file in files:
         if file.split(".")[-1] in img_exts:
-            image = file
+            image = file.split("/")[-1]
 
         if file.split(".")[-1] == "pde":
             cities = analyse(file)
@@ -73,7 +87,7 @@ for state in glob("States/*"):
         if file.endswith("data"):
             for f in glob(file+"/*"):
                 if f.split(".")[-1] in img_exts:
-                    image = f
+                    image = f.split("/")[-1]
 
     pimages += "PImage "+"".join(stateName.lower().split(" "))+";\n"
     images += "".join(stateName.lower().split(" "))+" = loadImage(\"" + image + "\");\n"
@@ -90,3 +104,8 @@ for state in glob("States/*"):
 
 print(final)
 print(images)
+
+with open("states.pde", "w") as f:
+    f.write(final + "\n\n")
+    f.write(images + "\n\n")
+    f.write(pimages)
