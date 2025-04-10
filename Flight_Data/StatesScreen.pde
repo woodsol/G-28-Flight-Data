@@ -138,7 +138,7 @@ class StatesScreen {
         temp = new HashMap<String, PVector>();
         temp.put("Houston", new PVector(470, 410.0));
         temp.put("Austin", new PVector(390, 380.0));
-        temp.put("Dallas/ Fort Worth", new PVector(400, 250.0));
+        temp.put("Dallas", new PVector(400, 250.0));
         statesList.put("Texas", new stateData(texas, temp));
         temp = new HashMap<String, PVector>();
         temp.put("Honolulu", new PVector(355, 220.0));
