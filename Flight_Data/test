@@ -39,8 +39,7 @@ PImage westvirginia;
 PImage newmexico;
 PImage massachusetts;
 PImage new_hampshire;
-PImage nebraska;
-PImage nevada;
+PImage 
 
 class StatesScreen {
     HashMap<String, stateData> statesList;
@@ -92,23 +91,12 @@ class StatesScreen {
         westvirginia = loadImage("West_Virginia.jpg");
         newmexico = loadImage("new_mexico_outline.jpg");
         new_hampshire = loadImage("new_hampshire.jpg");
-        nebraska = loadImage("nebraska.jpg");
-        nevada = loadImage("nevada.jpg");
 
         HashMap<String, PVector> temp = new HashMap<String, PVector>();
         temp.put("New York City", new PVector(300, 290));
         statesList.put("New York", new stateData(newyork, temp));
         temp = new HashMap<String, PVector>();
         temp.put("Airport", new PVector(300, 290));
-        temp.put("Little Rock", new PVector(460, 290));
-        temp.put("Fort Smith", new PVector(250, 300));
-        temp.put("Fayetteville", new PVector(250, 200));
-        statesList.put("Arkansas", new stateData(arkansas, temp));
-        temp = new HashMap<String, PVector>();
-        temp.put("Lincoln", new PVector(700, 400));
-        statesList.put("Nebraska", new stateData(southcarolina, temp));
-        temp = new HashMap<String, PVector>();
-        temp.put("Columbia", new PVector(300, 290));
         statesList.put("South Carolina", new stateData(southcarolina, temp));
         temp = new HashMap<String, PVector>();
         temp.put("Richmond", new PVector(420, 380.0));
@@ -197,7 +185,7 @@ class StatesScreen {
         temp.put("Idaho Falls", new PVector(350, 500));
         statesList.put("Idaho", new stateData(idaho, temp));
         temp = new HashMap<String, PVector>();
-        temp.put("Salem", new PVector(300, 290));
+        temp.put("Airport", new PVector(300, 290));
         statesList.put("Oregon", new stateData(oregon, temp));
         temp = new HashMap<String, PVector>();
         temp.put("Ashville", new PVector(145, 410.0));
