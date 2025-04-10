@@ -43,7 +43,11 @@ PImage nebraska;
 PImage arkansas;
 PImage nevada;
 PImage new_jersey;
-
+PImage michigan;
+PImage minnesota;
+PImage mississippi;
+PImage missouri;
+PImage montana;
 
 class StatesScreen {
     HashMap<String, stateData> statesList;
@@ -54,6 +58,11 @@ class StatesScreen {
     StatesScreen() {
         statesList = new HashMap<String, stateData>();
 
+        michigan = loadImage("michigan.jpg");
+        minnesota = loadImage("minnesota.jpg");
+        mississippi = loadImage("mississippi.jpg");
+        missouri = loadImage("missouri.jpg");
+        montana = loadImage("montana.jpg");
         newyork = loadImage("new_york.jpeg");
         new_jersey = loadImage("new_jersey.jpg");
         massachusetts = loadImage("massachusetts.jpg");
@@ -99,6 +108,7 @@ class StatesScreen {
         nebraska = loadImage("nebraska.jpg");
         nevada = loadImage("nevada.jpg");
         arkansas = loadImage("arkansas.jpg");
+        
 
         HashMap<String, PVector> temp = new HashMap<String, PVector>();
         temp.put("New York City", new PVector(300, 290));
@@ -214,6 +224,18 @@ class StatesScreen {
         temp = new HashMap<String, PVector>();
         temp.put("Phoenix", new PVector(300, 290));
         statesList.put("Arizona", new stateData(arizona, temp));
+        temp = new HashMap<String, PVector>();
+        temp.put("Minneapolis", new PVector(400, 290));
+        statesList.put("Minnesotas", new stateData(michigan, temp));
+        temp = new HashMap<String, PVector>();
+        temp.put("Minneapolis", new PVector(100, 290));
+        statesList.put("Mississippi", new stateData(mississippi, temp));
+        temp = new HashMap<String, PVector>();
+        temp.put("Springfield", new PVector(400, 390));
+        statesList.put("Missouri", new stateData(missouri, temp));
+        temp = new HashMap<String, PVector>();
+        temp.put("Missoula", new PVector(500, 390));
+        statesList.put("Montana", new stateData(montana, temp));
     }
 
     void loadState(String name, String abbr) {
