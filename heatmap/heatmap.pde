@@ -22,7 +22,6 @@ color[] heatColors = {
 
 class FlightHeatMap {
     FlightHeatMap() {
-      colorMode(HSB, 255);
       background(0);
       
       // Initialize heatmap grid
@@ -130,6 +129,7 @@ class FlightHeatMap {
       // }
       
       // Draw heatmap with logarithmic scaling for better visualization
+      colorMode(HSB, 255);
       loadPixels();
       for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -148,7 +148,7 @@ class FlightHeatMap {
       // Draw title and legend
       drawLegend();
       
-      println("Heatmap saved as 'flight_heatmap.png'");
+      colorMode(RGB);
     }
 
     color getHeatmapColor(float intensity) {

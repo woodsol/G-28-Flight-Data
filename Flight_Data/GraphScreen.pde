@@ -122,6 +122,20 @@ class GraphScreen {
         }
     }
 
+
+    void mouseMoved() {
+        if (subScreen == MAIN) {
+          searchFlightsButton.checkHover(mouseX, mouseY);
+          graphsButton.checkHover(mouseX, mouseY);
+          barChartButton.checkHover(mouseX, mouseY);
+          pieChartButton.checkHover(mouseX, mouseY);
+          lineChartButton.checkHover(mouseX, mouseY);
+          trajectoryButton.checkHover(mouseX, mouseY);
+          heatMapButton.checkHover(mouseX, mouseY);
+          backButton.checkHover(mouseX, mouseY);
+        }
+    }
+
     void numItems(int val) {
         pieChart.setNumItems(val);
     }

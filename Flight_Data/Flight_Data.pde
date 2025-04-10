@@ -79,6 +79,7 @@ void setup() {
 
 void draw()
 {
+  colorMode(RGB);
   switch(currentScreen) {
   case HOME_SCREEN:
     homeScreen.draw();
@@ -282,6 +283,10 @@ String endingOf(String month) {
 void mouseMoved() {
   if (currentScreen == HOME_SCREEN) {
     homeScreen.mouseMoved();
+  } else {
+    if (currentScreen == GRAPHS_SCREEN) {
+        graphScreen.mouseMoved();
+    }
   }
 }
 
