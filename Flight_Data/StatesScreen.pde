@@ -73,7 +73,7 @@ class StatesScreen {
         florida = loadImage("florida.jpg");
         kentucky = loadImage("Kentucky.jpg");
         northdakota = loadImage("north_dakota.jpg");
-        louisiana = loadImage("Lousiana.jpg");
+        louisiana = loadImage("lousiana.jpg");
         maryland = loadImage("maryland.jpg");
         texas = loadImage("Texas.png");
         hawaii = loadImage("Hawaii.png");
