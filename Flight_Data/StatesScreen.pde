@@ -79,7 +79,7 @@ class StatesScreen {
         hawaii = loadImage("Hawaii.png");
         rhodeisland = loadImage("rhode_island.png");
         kansas = loadImage("kansas.jpg");
-        pennsylvania = loadImage("pennysylvania.jpg");
+        pennsylvania = loadImage("pennsylvania.jpg");
         tennessee = loadImage("Tennessee.jpg");
         idaho = loadImage("Idaho outline.jpg");
         oregon = loadImage("oregon.jpg");
