@@ -1,4 +1,5 @@
 from glob import glob
+import os
 
 def rep(txt, vars):
     for k, v in vars.items():
@@ -45,7 +46,8 @@ img_exts = [
     "webp",
     "png",
     "tiff",
-    "svg"
+    "svg",
+    "gif"
 ]
 
 states_to_img = {}
@@ -63,7 +65,7 @@ for state in glob("States/*"):
 
     for file in files:
         if file.split(".")[-1] in img_exts:
-            image = file.split('/')[-1]
+            image = file
 
         if file.split(".")[-1] == "pde":
             cities = analyse(file)
@@ -71,19 +73,20 @@ for state in glob("States/*"):
         if file.endswith("data"):
             for f in glob(file+"/*"):
                 if f.split(".")[-1] in img_exts:
-                    image = f.split('/')[-1]
+                    image = f
 
     pimages += "PImage "+"".join(stateName.lower().split(" "))+";\n"
     images += "".join(stateName.lower().split(" "))+" = loadImage(\"" + image + "\");\n"
+    print(images)
+    os.system("mv "+image+" Flight_Data/data")
 
     final += "temp = new HashMap<String, PVector>();\n"
     print(cities)
     for city, points in cities.items():
         final += "temp.put(" + city + ", new PVector("+str(points[0])+", "+ str(points[1]) +"));\n"
-    final += "statesList.put("
-    final += stateName + ", new stateData("+"".join(stateName.lower().split(" "))+", temp)"
+    final += "statesList.put(\""
+    final += stateName + "\", new stateData("+"".join(stateName.lower().split(" "))+", temp)"
     final += ");\n"
 
 print(final)
 print(images)
-

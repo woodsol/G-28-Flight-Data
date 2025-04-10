@@ -9,6 +9,7 @@ FlightTrajectoryMap flightTrajectory;
 FlightBarChart barChart;
 FlightHeatMap heatMap;
 FlightPieChart pieChart;
+FlightLineChart lineChart;
 
 class GraphScreen {
     int subScreen = 0;
@@ -17,6 +18,7 @@ class GraphScreen {
       barChart = new FlightBarChart();
       heatMap = new FlightHeatMap();
       pieChart = new FlightPieChart();
+      lineChart = new FlightLineChart();
 
       barChartImage = loadImage("barChartImage2.png");
       pieChartImage = loadImage("pieChartImage2.png");
@@ -67,6 +69,9 @@ class GraphScreen {
                 break;
             case BAR_CHART:
                 barChart.draw();
+                break;
+            case LINE_CHART:
+                lineChart.draw();
                 break;
         }
     }

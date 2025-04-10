@@ -27,7 +27,7 @@ class Flight {
     
     void originCityName(String value) {
       if (value.equals("")) { return; }
-      this.ORIGINSTATEABR = "\"" + value + "\"";
+      this.ORIGINCITYNAME = "\"" + value + "\"";
     }
     
     void destinationStateAbr(String value) {

@@ -9,25 +9,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-// Database
-Table table;
-ArrayList<Float> flightDistances = new ArrayList<Float>();
-ArrayList<String> flightLabels = new ArrayList<>();
-
-PImage planebackground, planeCursor;
-
-class FlightLineGraph {
-    FlightLineGraph() {
-      size(1000, 600);
-      smooth();
-      
+class FlightLineChart {
+    Table table;
+    ArrayList<Float> flightDistances = new ArrayList<Float>();
+    ArrayList<String> flightLabels = new ArrayList<>();
+    
+    PImage planebackground, planeCursor;
+    FlightLineChart() {
       table = loadTable("flights1k.csv", "csv");
       
       planebackground = loadImage("planebackground.jpg");
       planebackground.resize(width, height);
-        
-      planeCursor = loadImage("plane_cursor (1).png"); 
-      planeCursor.resize(50, 50); 
       
       HashSet<String> uniqueFlights = new HashSet<>();
       
@@ -71,15 +63,12 @@ class FlightLineGraph {
 
     void draw()
     {
-      background(planebackground); 
-      
-      noCursor();
-      image(planeCursor, mouseX - planeCursor.width / 2, mouseY - planeCursor.height / 2);
+      background(planebackground);
 
       fill(0);
       textAlign(LEFT, CENTER);
       textSize(24);
-      text("Click to animate the top 10 flight distances", 300, 150);
+      text("Animation of the top 10 flight distances", 300, 150);
       textSize(12);
         
       graphLine.drawAnimated(350, 200);
@@ -99,5 +88,5 @@ class FlightLineGraph {
         graphLine.updateAnimation();
         
       } 
+   }
 }
-

@@ -22,16 +22,15 @@ class FlightPieChart {
     for (String state : stateCount.keySet()) {
       stateColors.put(state, color(random(255), random(255), random(255)));
     }
-    cp5.addSlider("numItems")
-       .setPosition(50, 550)
-       .setSize(500, 20)
-       .setRange(1, 15)
-       .setValue(5);
   }
 
   void draw() {
     if (!sliderAdded) {
-      
+      cp5.addSlider("numItems")
+       .setPosition(50, 550)
+       .setSize(500, 20)
+       .setRange(1, 15)
+       .setValue(5);
       sliderAdded = true;
     }
     background(planebackground);

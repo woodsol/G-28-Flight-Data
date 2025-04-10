@@ -29,7 +29,6 @@ PVector pan = new PVector(50, 50); // Add panning and zoom
 float scale = 0.9;
 // int mouseHeldFrames = 0;
 PVector prevMousePos = new PVector(0, 0);
-PImage planeCursor;
 boolean departureSelected = false;
 String departureState = "";
 String arrivalState = "";
@@ -37,6 +36,9 @@ String departureCity = "";
 String arrivalCity = "";
 String flightDate = "";
 SearchBar searchBar;
+
+// States Screen
+StatesScreen statesScreen;
 
 // Date Selector screen
 FlightDateSelectionUI dateScreen;
@@ -56,8 +58,6 @@ void setup() {
 
   Montserrat = createFont("Montserrat-Medium.ttf", 64);
   MontserratBold = createFont("Montserrat-Bold.ttf", 64);
-
-  planeCursor = loadImage("planeCursor.png"); // Custom cursor image
   
   cp5 = new ControlP5(this);
 
@@ -67,6 +67,7 @@ void setup() {
   graphScreen = new GraphScreen();
   mapScreen = new MapScreen(Montserrat);
   searchBar = new SearchBar();
+  statesScreen = new StatesScreen();
   dateScreen = new FlightDateSelectionUI();
   resultsScreen = new ResultsScreen();
   //
@@ -125,6 +126,9 @@ void draw()
     scale(0.8);
     dateScreen.draw();
     break;
+  case STATE_SCREEN:
+    statesScreen.draw();
+    break;
   default:
     print("Screen does not exist.");
     break;
@@ -160,6 +164,9 @@ void mousePressed() {
   case GRAPHS_SCREEN:
     graphScreen.mousePressed();
     break;
+  case STATE_SCREEN:
+    statesScreen.mousePressed();
+    break;
   case MAP_SCREEN:
     float mousX = mouseX / scale - pan.x;
     float mousY = mouseY / scale - pan.y;
@@ -173,10 +180,17 @@ void mousePressed() {
       if (state.isMouseOver( scale, pan )) {
         if (departureSelected) {
           arrivalState = state.abbr;
-          currentScreen = DATE_SCREEN;
+          statesScreen.loadState(state.name, state.abbr);
+          statesScreen.originMode = false;
+          currentScreen = STATE_SCREEN;
+          // arrivalState = state.abbr;
+          // currentScreen = DATE_SCREEN;
         } else {
           departureState = state.abbr;
+          statesScreen.loadState(state.name, state.abbr);
+          currentScreen = STATE_SCREEN;
           departureSelected = true;
+          statesScreen.originMode = true;
         }
       }
     }
